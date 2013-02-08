@@ -3,14 +3,13 @@
 $TITLE = "Create Account";
 require 'header.php';
 
-
 if (isset($_POST['submit'])) {
 
 	if ($_POST['name'] == '') {
 		echo "Please enter a username";
 	} else if ($_POST['pass'] == '') {
 		echo "Please enter a password";
-	} else if (preg_match("/unt\.edu/", $_POST['email']) <= 0) {
+	} else if (preg_match("/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]*([.][a-zA-Z0-9_]+)*[\.]*unt[\.]edu$/", $_POST['email']) <= 0) {
 		echo "Please enter a valid UNT email";
 	} else {
 		$query = "INSERT INTO students (username, password, email) VALUES ('" . $_POST['name'] . "', '" . $_POST['pass'] . "', '" . $_POST['email'] . "')";
