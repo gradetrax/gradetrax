@@ -141,7 +141,7 @@ if (isset($_POST['id'])) {
 			foreach ($courses as $course) {
 				echo <<<EOT
 				<li>
-					<a href="viewcourse.php?id=$course[id]">$course[course]</a>
+					<a href="viewCourse.php?id=$course[id]">$course[course]</a>
 				</li>
 EOT;
 			}
