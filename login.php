@@ -12,11 +12,17 @@ if (isset($_POST['submit'])) {
 	while ($row = mysql_fetch_array($results)) {
 		if ($row['password'] == $_POST['pass']) {
 			$_SESSION['username'] = $_POST['name'];
-			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=index.php">';
+			?>
+			
+			<script language="JavaScript">
+					window.location = "index.php";
+			</script>
+					
+			<?php
 		} else {
 			echo "Wrong password. <a href='login.php'>Please try again</a>.";
 		}
-	}
+	} 
 
 } else {
 
