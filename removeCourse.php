@@ -6,7 +6,11 @@ if (isset($_GET['delete'])) {
 	//echo $query;
 
 	if (mysql_query($query)) {
-		header('Location: http://pc5btpvv1.cse.unt.edu/grades/courses.php');
+		?>
+		<script language="JavaScript">
+			window.location = "courses.php";
+		</script>
+		<?php
 	} else {
 		echo "Error removing course";
 	}
