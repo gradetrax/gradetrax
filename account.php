@@ -7,6 +7,8 @@ echo "<h3>Account Settings: $_SESSION[username]</h3>";
 $query = "SELECT * FROM students WHERE username='{$_SESSION['username']}'";
 $result = mysql_fetch_array($result = mysql_query($query));
 
+$query = "";
+
 $fullName = $result['fullName'];
 $email = $result['email'];
 
@@ -15,14 +17,37 @@ if (isset($_POST['submit'])) {
 		echo "Current password entry incorrect!";
 	} else {
 		$email = addSlashes($_POST['email']);
+		
 		$fullName = addSlashes($_POST['fullName']);
-		$query =   "UPDATE students SET fullName='$fullName', 
+		if ($_POST['newPass1'] != "" || $_POST['newPass2'] != "")
+			{
+			//echo "Both are set<br>";
+			
+			$password2 = addSlashes($_POST['newPass2']);
+			$password1 = addSlashes($_POST['newPass1']);
+			if($password1==$password2)
+			{
+				//echo "Both are equal<br>";
+				$query =   "UPDATE students SET fullName='$fullName', 
+						email='$email', 
+						password='$password1'
+						WHERE username='{$_SESSION['username']}'";
+			} else
+				echo "Your passwords did not match";
+			}
+		else
+		{
+			$query =   "UPDATE students SET fullName='$fullName', 
 					email='$email' 
 					WHERE username='{$_SESSION['username']}'";
-		if (!mysql_query($query)) {
-			echo "query error:" .  mysql_error();
-		} else {
-			echo "Changes saved.";
+		}
+
+		if ($query != "") {
+			if (!mysql_query($query)) {
+				echo "Query error:" .  mysql_error();
+			} else {
+				echo "Changes saved.";
+			}
 		}
 	}
 } else {
