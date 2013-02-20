@@ -33,7 +33,7 @@ Note: Your email must end with unt.edu
 <br><br><br>
 
 <form id="accountForm" method="POST" action="">
-Username: <input type="text" name="name" />
+Username: <input type="text" name="name" autofocus />
 <br><br>Password: <input type="password" name="pass" />
 <br><br>School Email: <input type="text" name="email" />
 <br><br><input type="submit" name="submit" value="submit">

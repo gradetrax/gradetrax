@@ -31,7 +31,7 @@ if (isset($_POST['submit'])) {
 <h3>Log In</h3>
 
 <form id="form" action="" method="POST">
-Username: <input type="text" name="name">
+Username: <input type="text" name="name" /autofocus>
 <br>Password: <input type="password" name="pass">
 <br><input type="submit" name="submit" value="submit">
 

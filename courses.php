@@ -12,7 +12,13 @@ if (isset($_POST['addCourse'])) {
 			echo "query error: " . mysql_error() . "<br><br>";
 			echo $query . "<br>";
 		} else {
+			// Unsetting and redirecting fixes the form not showing up twice in a row
 			unset($_POST['addCourse']);
+			?>
+			<script>
+				window.location = "courses.php";
+			</script>
+			<?php
 		}
 	} else {
 		echo "Please enter a name, department, number, <em>and</em> the number of credits before submitting a course.<br><br>";
