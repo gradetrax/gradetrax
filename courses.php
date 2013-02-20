@@ -4,37 +4,57 @@ $TITLE = "Courses";
 require 'header.php';
 
 if (isset($_POST['addCourse'])) {
+
 	if (($_POST['course'] != "") && is_numeric($_POST['credits']) && ($_POST['dept'] != "") && is_numeric($_POST['number'])) {
+
 		$query = "INSERT INTO courses (username, course, credits, department, number) VALUES ('" . $_SESSION['username'] . "', '" . $_POST['course'] . "', " . $_POST['credits'] . ", '" . $_POST['dept'] . "', " . $_POST['number'] . ")";
 		if (!mysql_query($query)) {
 			echo "query error: " . mysql_error() . "<br><br>";
 			echo $query . "<br>";
+		} else {
+			unset($_POST['addCourse']);
 		}
 	} else {
 		echo "Please enter a name, department, number, <em>and</em> the number of credits before submitting a course.<br><br>";
+
+		if ($_POST['dept'] == "Example: PHYS")
+			$_POST['dept'] = "";
+		if ($_POST['number'] == "Example: 1710")
+			$_POST['number'] = "";
+
+		echo <<< EOT
+		<form method="POST" action="" class="editBox" id="accountForm">
+			<br>Course Title: <input type="text" name="course" value="$_POST[course]" autofocus />
+			<br><br>Credits: <input type="text" name="credits" value="3" />
+			<br><br>Department: <input type="text" name="dept" class="editBox" value="$_POST[dept]" />
+			<br><br>Number: <input type="text" name="number" class="editBox" value="$_POST[number]"  />
+			<br><br><input type="submit" name="addCourse" value="submit">
+		</form>
+EOT;
+
 	}
+
+} else {
+
+	echo <<< EOT
+	<form method="POST" action="" class="editBox" id="accountForm">
+		<br>Course Title: <input type="text" name="course" autofocus/>
+		<br><br>Credits: <input type="text" name="credits" value="3"/>
+		<br><br>Department: <input type="text" name="dept" class="editBox" value="Example: PHYS" onblur="if (this.value == '') {this.value = 'Example: PHYS';}"
+		onfocus="if (this.value == 'Example: PHYS') {this.value = '';}"/>
+		<br><br>Number: <input type="text" name="number" class="editBox" value="Example: 1710" onblur="if (this.value == '') {this.value = 'Example: 1710';}"
+		onfocus="if (this.value == 'Example: 1710') {this.value = '';}" />
+		<br><br><input type="submit" name="addCourse" value="submit">
+	</form>
+EOT;
+
 }
 
 ?>
 
-<form method="POST" action="" class="editBox" id="accountForm">
-	<br>Course Title: <input type="text" name="course" autofocus/>
-	<br><br>Credits: <input type="text" name="credits" value="3"/>
-	<br><br>Department: <input type="text" name="dept" class="editBox" value="Example: PHYS" onblur="if (this.value == '') {this.value = 'Example: PHYS';}"
-onfocus="if (this.value == 'Example: PHYS') {this.value = '';}"/>
-	<br><br>Number: <input type="text" name="number" class="editBox" value="Example: 1710" onblur="if (this.value == '') {this.value = 'Example: 1710';}"
-onfocus="if (this.value == 'Example: 1710') {this.value = '';}" />
-	<br><br><input type="submit" name="addCourse" value="submit">
-</form>
 
-<?php
-echo <<< EOT
-	<button id="newCourseButton" onclick="show();" class="mainButton">New Course</button>
-	<br><br>
-EOT;
-
-?>
-
+<button id="newCourseButton" onclick="show();" class="mainButton">New Course</button>
+<br><br>
 
 <script>
 function show() {
