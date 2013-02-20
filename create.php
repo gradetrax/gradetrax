@@ -11,6 +11,8 @@ if (isset($_POST['submit'])) {
 		echo "Please enter a password";
 	} else if (preg_match("/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]*([.][a-zA-Z0-9_]+)*[\.]*unt[\.]edu$/", $_POST['email']) <= 0) {
 		echo "Please enter a valid UNT email";
+	} else if (strpos($_POST['name'], "@") !== false) {
+		echo "Please do not include the @ symbol in your username";
 	} else {
 		$query = "INSERT INTO students (username, password, email) VALUES ('" . $_POST['name'] . "', '" . $_POST['pass'] . "', '" . $_POST['email'] . "')";
 	//	echo $query;
