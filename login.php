@@ -9,7 +9,7 @@ if (isset($_POST['submit'])) {
 	$query = "SELECT * FROM students WHERE username='" . $_POST['name'] . "'";
 	$results = mysql_query($query);
 
-	while ($row = mysql_fetch_array($results)) {
+	if ($row = mysql_fetch_array($results)) {
 		if ($row['password'] == $_POST['pass']) {
 			$_SESSION['username'] = $_POST['name'];
 			?>
@@ -20,11 +20,13 @@ if (isset($_POST['submit'])) {
 					
 			<?php
 		} else {
-			echo "Wrong password. <a href='login.php'>Please try again</a>.";
+			echo "Invalid password.<br>";
 		}
-	} 
+	} else {
+		echo "Username does not exist.<br>";
+	}
 
-} else {
+}
 
 ?>
 
@@ -36,7 +38,5 @@ Username: <input type="text" name="name" /autofocus>
 <br><input type="submit" name="submit" value="submit">
 
 <?php
-}
-
 require 'footer.php';
 ?>
