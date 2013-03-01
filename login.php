@@ -11,7 +11,7 @@ if (isset($_POST['submit'])) {
 
 	if ($row = mysql_fetch_array($results)) {
 		if ($row['password'] == $_POST['pass']) {
-			$_SESSION['username'] = $_POST['name'];
+			$_SESSION['username'] = $row['username'];
 			?>
 			
 			<script language="JavaScript">

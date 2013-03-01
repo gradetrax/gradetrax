@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
 		echo "Query error:" . mysql_error();
 	}
 }
-	
+
 ?>
 
 
@@ -26,8 +26,7 @@ function show() {
 	for(var i = 0, length = elements.length; i < length; i++) {
           elements[i].style.display='block';
     }
-};
-</script>
+};</script>
 
 
 <?php
@@ -42,15 +41,23 @@ if (!($result = mysql_query($query))) {
 		echo "You do not have permission to access this course!";
 	} else {
 		
+		if ($row['grade'] < 0)
+			$grade = "N/A";
+		else
+			$grade = $row['grade'];
+
+			
 		echo <<<EOT
 			<h3>$row[department] $row[number]: $row[course]</h3>
 			
 			<div id="origData">
-			Credit hours: $row[credits]
+			Current grade: $grade
+			<br>Credit hours: $row[credits]
 			<br>Instructor: $row[instructor]
 			<br>Location: $row[location]
 			<br>
-			<br><button onClick="show()">Edit</button>
+			<br><a href="grading.php?id=$_GET[id]" class="mainButton">Grades</a>
+			<button onClick="show()">Edit</button>
 			</div>
 			
 			<form action="" method="POST" class="editBox">
