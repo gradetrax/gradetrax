@@ -1,4 +1,5 @@
 <?php
+$TITLE = "Course Grade";
 require('header.php');
 
 if(isset($_POST['submit'])) {
@@ -31,18 +32,26 @@ if (!($cats = mysql_query($query)))
 	die("Error with query: $query");
 
 while($cat = mysql_fetch_array($cats)) {
-	echo $cat['id'] . ": " . $cat['name'] . " at " . $cat['weight'] . "%<br>";
+	echo <<<EOT
+	<p class="listItem" onclick="show('$cat[name]')">$cat[weight]%: $cat[name]</p>
+	<p class="$cat[name]" style="display: none">lol</p>
+EOT;
 }
 
 ?>
 
 
 <script>
-function show() {
-	document.getElementById('newCat').style.display='none';
-	var elements = document.getElementsByClassName('editBox');
+function show(type) {
+	if (type == 'editBox') {
+		document.getElementById('newCat').style.display='none';
+	}
+	var elements = document.getElementsByClassName(type);
 	for(var i = 0, length = elements.length; i < length; i++) {
-          elements[i].style.display='block';
+		if (elements[i].style.display == 'none')
+			elements[i].style.display='block';
+		else
+			elements[i].style.display='none';
     }
 };
 </script>
@@ -58,7 +67,7 @@ function show() {
 </form>
 
 
-<button id="newCat" onClick="show()">New Category</button>
+<button id="newCat" onClick="show('editBox')">New Category</button>
 
 
 

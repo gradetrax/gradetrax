@@ -1,4 +1,5 @@
 <?php
+$TITLE = "View Courses";
 require 'header.php';
 
 if (isset($_POST['submit'])) {

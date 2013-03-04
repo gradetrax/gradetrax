@@ -8,7 +8,7 @@ require 'header.php';
 
 if (isset($_POST['addCourse'])) {
 	if (($_POST['course'] != "") && is_numeric($_POST['credits'])) {
-		$query = "INSERT INTO courses (username, course, credits) VALUES ('" . $_SESSION['username'] . "', '" . $_POST['course'] . "', '" . $_POST['credits'] . "')";
+		$query = "INSERT INTO courses (username, course, credits, grade) VALUES ('" . $_SESSION['username'] . "', '" . $_POST['course'] . "', '" . $_POST['credits'] . "', -1.0)";
 		if ($results = mysql_query($query)) {
 			echo $_POST['course'] . " added<br><br>";
 			?>

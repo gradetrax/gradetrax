@@ -141,6 +141,17 @@ button:hover, input[type="submit"]:hover, .mainButton:hover {
 }
 
 
+.listItem {
+	color: #606060;
+	font-weight: bold;
+}
+
+.listItem:hover {
+	color: #202020;
+	cursor: hand; cursor: pointer;
+}
+
+
 .smallBox {
 	width: 6em !important;
 }
