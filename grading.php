@@ -19,7 +19,7 @@ if(isset($_POST['submit'])) {
 }
 
 
-$query = "SELECT * FROM courses WHERE id=" . $_GET['id'];
+$query = "SELECT * FROM courses WHERE id = " . $_GET['id'];
 if (!($course = mysql_query($query)))
 	die("Error with query: $query");
 
@@ -43,7 +43,7 @@ EOT;
 
 <script>
 function show(type) {
-	if (type == 'editBox') {
+	if (type == 'newCat') {
 		document.getElementById('newCat').style.display='none';
 	}
 	var elements = document.getElementsByClassName(type);
@@ -58,16 +58,21 @@ function show(type) {
 
 <br><br>
 
-<form action="" method="POST" class="editBox">
-	Category Name<input type="text" name="name" class="editBox" value="Example: Homework" onblur="if (this.value == '') {this.value = 'Example: Homework';}"
+<form action="" method="POST" class="newCat" style = "display:none;">
+	Category Name<input type="text" name="name" value="Example: Homework" onblur="if (this.value == '') {this.value = 'Example: Homework';}"
 	onfocus="if (this.value == 'Example: Homework') {this.value = '';}" />
-	<br>Percentage of Grade<input type="text" name="weight" class="editBox" value="Example: 20" onblur="if (this.value == '') {this.value = 'Example: 20';}"
+	<br>Percentage of Grade<input type="text" name="weight" value="Example: 20" onblur="if (this.value == '') {this.value = 'Example: 20';}"
 	onfocus="if (this.value == 'Example: 20') {this.value = '';}" />
 	<br><input type="submit" class="editBox" name="submit" value="Submit" />
 </form>
 
 
-<button id="newCat" onClick="show('editBox')">New Category</button>
+
+
+
+<button id="newCat" onClick="show('newCat')">New Category</button>
+
+
 
 
 
