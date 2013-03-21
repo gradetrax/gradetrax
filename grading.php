@@ -1,6 +1,7 @@
 <?php
 $TITLE = "Course Grade";
 require('header.php');
+$weightTotal = 0; // To check if the user's total grade percentage is 100.
 
 if(isset($_POST['submit'])) {
 
@@ -13,7 +14,7 @@ if(isset($_POST['submit'])) {
 		}
 		
 	} else {
-		echo "Please enter a category name and numeric weight.<br><br>";
+		echo "<p class='warning'>Please enter a category name and numeric weight.</p><br>";
 	}
 	
 }
@@ -36,8 +37,10 @@ while($cat = mysql_fetch_array($cats)) {
 	<p class="listItem" onclick="show('$cat[name]')">$cat[weight]%: $cat[name]</p>
 	<p class="$cat[name]" style="display: none">lol</p>
 EOT;
+$weightTotal += $cat['weight'];
 }
-
+if ($weightTotal < 100)
+	echo "Warning: Your grade percentages do not add up to 100.";
 ?>
 
 
