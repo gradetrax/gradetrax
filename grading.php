@@ -6,12 +6,25 @@ $weightTotal = 0; // To check if the user's total grade percentage is 100.
 if(isset($_POST['submit'])) {
 
 	if (($_POST['name'] != "") && (is_numeric($_POST['weight']))) {
-		
-		$query = "INSERT INTO categories (courseid, name, weight) VALUES (" . $_GET['id'] . ", '" . $_POST['name'] . "', " . $_POST['weight'] . ")";
-//		echo $query;
-		if (!mysql_query($query)) {
-			echo "Category insertion failed: $query";
-		}
+		$query="SELECT name FROM categories WHERE name='" . $_POST['name'] . "'";
+		if(!($result=mysql_query($query)))
+		{
+			echo "Name selection failed";
+			}
+			else
+			{
+				if($row =mysql_fetch_array($result))
+				{
+					echo "Course already exists.<br>";
+				}
+				else
+				{
+					$query = "INSERT INTO categories (courseid, name, weight) VALUES (" . $_GET['id'] . ", '" . $_POST['name'] . "', " . $_POST['weight'] . ")";
+					if (!mysql_query($query)) {
+					echo "Category insertion failed: $query";
+					}
+				}
+			}
 		
 	} else {
 		echo "<p class='warning'>Please enter a category name and numeric weight.</p><br>";
@@ -96,8 +109,9 @@ while($cat = mysql_fetch_array($cats)) {
 EOT;
 $weightTotal += $cat['weight'];
 }
-if ($weightTotal < 100)
+if (($weightTotal < 100) OR ($weightTotal > 100))
 	echo "Warning: Your grade percentages do not add up to 100.";
+
 ?>
 
 
