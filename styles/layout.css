@@ -135,6 +135,9 @@ button:hover, input[type="submit"]:hover, .mainButton:hover {
 	display: none;
 }
 
+.warning{
+	color: red;
+}
 
 #accountForm {
 	width: 450px;
