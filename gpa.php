@@ -29,7 +29,7 @@ if ($results = mysql_query($query)) {
 				$credits=$credits+$course["credits"];
 		}
 		
-		$completedGPA=number_format($total/$credits,2);
+		$completedGPA=number_format($total/$credits,3);
 		
 			echo "Your GPA on past course work is " . $completedGPA;
 	} else {
