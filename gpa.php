@@ -1,4 +1,5 @@
 <?php
+$TITLE = "GPA";
 require 'header.php';
 ?>
 

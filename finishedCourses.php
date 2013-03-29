@@ -1,4 +1,5 @@
 <?php
+$TITLE = "Finished Courses";
 require 'header.php';
 
 
