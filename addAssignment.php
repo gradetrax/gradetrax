@@ -10,7 +10,7 @@ if (isset($_POST['submit'])) {
 
 	if (($_POST['name'] != "")) {
 	
-		$query = "INSERT INTO assignments (name, courseID, grade) VALUES ('" . $_POST['name'] . "', "  . $_POST['courseID'] . ", -1)";
+		$query = "INSERT INTO assignments (name, courseID, grade, username) VALUES ('" . $_POST['name'] . "', "  . $_POST['courseID'] . ", -1, '" . $_SESSION['username'] . "')";
 		
 		if (!mysql_query($query)) {
 			die("Query failed: " . mysql_error());

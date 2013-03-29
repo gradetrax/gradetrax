@@ -1,6 +1,22 @@
 <?php
 $TITLE = "Grades";
 require 'header.php';
+
+if (isset($_POST['grade'])) {
+
+	// echo '<pre>';
+	// print_r($_POST);
+	// echo '</pre>';
+
+	$query = "UPDATE assignments SET grade=" . $_POST['grade'] . " WHERE id=" . $_POST['assignment'];
+	// echo $query;
+	
+	if (!mysql_query($query)) {
+		die("Query failed: " . mysql_error());
+	}
+	
+}
+
 ?>
 
 
@@ -13,6 +29,10 @@ function show(type) {
 		else
 			elements[i].style.display='none';
     }
+};
+
+function submitForm(form) {
+	document.forms[form].submit();
 };
 </script>
 
@@ -27,9 +47,20 @@ $query = "SELECT * FROM assignments WHERE username='" . $_SESSION['username'] . 
 if (!($result = mysql_query($query))) {
 	die("Query error: " . mysql_error());
 }
+echo "<table class='incomplete' style='display:none'>";
 while ($row = mysql_fetch_array($result)) {
-	echo '<p class="incomplete" style="display: none">' . $row['name'] . '</p>';
+	echo <<<EOT
+		<tr>
+		<td style='padding-right: 20px;'>$row[name]</td>
+		<td><form name='$row[name]' method='post'>
+			<input type='hidden' name='grade' value='-2'>
+			<input type='hidden' name='assignment' value='$row[id]'>
+			<a class="listItem" onclick="submitForm('$row[name]')">Mark Complete</a>
+		</form></td>
+		</tr>
+EOT;
 }
+echo "</table>";
 ?>
 
 
@@ -41,9 +72,19 @@ $query = "SELECT * FROM assignments WHERE username='" . $_SESSION['username'] . 
 if (!($result = mysql_query($query))) {
 	die("Query error: " . mysql_error());
 }
+echo "<table class='tbg' style='display:none'>";
 while ($row = mysql_fetch_array($result)) {
-	echo '<p class="tbg" style="display: none">' . $row['name'] . '</p>';
+		echo <<<EOT
+		<tr>
+		<td style='padding-right: 20px;'>$row[name]</td>
+		<td><form name='$row[name]' method='post'>
+			<input type='hidden' name='assignment' value='$row[id]'>
+			<a class="listItem" onclick="submitForm('$row[name]')">Mark Graded:</a>
+			<input type='text' name='grade' style='width: 2.5em !important'>
+		</form></td>
+EOT;
 }
+echo "</table>";
 ?>
 
 
@@ -56,9 +97,16 @@ $query = "SELECT * FROM assignments WHERE username='" . $_SESSION['username'] . 
 if (!($result = mysql_query($query))) {
 	die("Query error: " . mysql_error());
 }
+echo "<table class='graded' style='display:none'>";
 while ($row = mysql_fetch_array($result)) {
-	echo '<p class="graded" style="display: none">' . $row['name'] . '</p>';
+	echo <<<EOT
+	<tr>
+	<td style='padding-right: 20px;'>$row[name]</td>
+	<td>$row[grade]%</td>
+	</tr>
+EOT;
 }
+echo "</table>";
 ?>
 
 
