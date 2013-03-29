@@ -10,7 +10,12 @@ if (isset($_POST['submit'])) {
 		if (!mysql_query($query)) {
 			die("Query failed: " . mysql_error());
 		} else {
-			echo "Course added!<br>";
+			
+			?>
+			<script language="JavaScript">
+					window.location = "gpa.php";
+			</script>
+			<?php		
 		}
 		
 	} else {
@@ -41,6 +46,13 @@ if (isset($_POST['submit'])) {
 <br><br>
 <input type="submit" name="submit" value="Submit">
 </form>
+
+
+
+
+			
+		
+		
 
 
 <?php
