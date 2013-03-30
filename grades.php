@@ -2,19 +2,28 @@
 $TITLE = "Grades";
 require 'header.php';
 
+// A Grade Has Been Updated
 if (isset($_POST['grade'])) {
 
-	// echo '<pre>';
-	// print_r($_POST);
-	// echo '</pre>';
-
+	 echo '<pre>';
+	 print_r($_POST);
+	 echo '</pre>';
+	// Updates grade from -2 to a number.
 	$query = "UPDATE assignments SET grade=" . $_POST['grade'] . " WHERE id=" . $_POST['assignment'];
 	// echo $query;
-	
 	if (!mysql_query($query)) {
 		die("Query failed: " . mysql_error());
 	}
-	
+	$query = "SELECT grade FROM assignments WHERE categoryID=" . $_POST['categoryID'] . " AND username='" . $_SESSION['username'] . "'";
+	if (!($result = mysql_query($query))) {
+		die("Query failed: " . mysql_error());
+	}
+	while ($row = mysql_fetch_array($result))
+	{
+		echo "<pre>";
+		print_r($row);
+		echo "</pre>";
+	}
 }
 
 ?>
@@ -91,9 +100,10 @@ while ($row = mysql_fetch_array($result)) {
 		<td style='padding-right: 20px;'>$row2[course]</td>
 		<td style='padding-right: 20px;'>$row[name]</td>
 		<td><form name='$row[name]' method='post'>
-			<input type='hidden' name='assignment' value='$row[id]'>
+			<input type='hidden' name='categoryID' value='$row[categoryID]' />			
+			<input type='hidden' name='assignment' value='$row[id]' />
 			<a class="listItem" onclick="submitForm('$row[name]')">Mark Graded:</a>
-			<input type='text' name='grade' style='width: 2.5em !important'>
+			<input type='text' name='grade' style='width: 2.5em !important' />
 		</form></td>
 EOT;
 }

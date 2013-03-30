@@ -4,22 +4,22 @@ require 'header.php';
 
 if (isset($_POST['submit'])) {
 
-	// echo "<pre>";
-	// print_r($_POST);
-	// echo "</pre><br><br>";
+	echo "<pre>";
+	print_r($_POST);
+	echo "</pre><br><br>";
 
 	if (($_POST['name'] != "")) {
 	
-		$query = "INSERT INTO assignments (name, courseID, grade, username) VALUES ('" . $_POST['name'] . "', "  . $_POST['courseID'] . ", -1, '" . $_SESSION['username'] . "')";
+		$query = "INSERT INTO assignments (name, courseID, grade, username, categoryID) VALUES ('" . $_POST['name'] . "', "  . $_POST['courseID'] . ", -1, '" . $_SESSION['username'] . "', " . $_POST['categoryID'] . ")";
 		
 		if (!mysql_query($query)) {
 			die("Query failed: " . mysql_error());
 		} else {
-			?>
-			<script language="JavaScript">
-				window.location = "grades.php";
-			</script>			
-			<?php
+			// ?>
+			 <script language="JavaScript">
+				// window.location = "grades.php";
+			 </script>			
+			// <?php
 		}
 		
 	} else {
@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
 ?>
 	<form method="post" action="">
 <br>Category:
-	<select name="courseID">
+	<select name="categoryID"> <!-- Dropdown to select category for new assignment -->
 	<?php
 
 		$query = "SELECT * FROM categories WHERE courseID='" . $_POST['courseID'] . "' ORDER BY weight ASC";

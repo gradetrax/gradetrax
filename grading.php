@@ -1,30 +1,34 @@
 <?php
+// Handles the "categories" grades page on individual classes.
+// Courses > Select Class > Grades > Listed Categories/Percentages.
+
 $TITLE = "Course Grade";
 require('header.php');
 $weightTotal = 0; // To check if the user's total grade percentage is 100.
 
-if(isset($_POST['submit'])) {
+// Making a new category form and data submittal
+if(isset($_POST['submit'])) {		// If the submit button has been clicked.
 
 	if (($_POST['name'] != "") && (is_numeric($_POST['weight']))) {
 		$query="SELECT name FROM categories WHERE name='" . $_POST['name'] . "'";
-		if(!($result=mysql_query($query)))
+		if(!($result=mysql_query($query)))	// If the querey didn't work.
 		{
 			echo "Name selection failed";
+		}
+		else
+		{
+			if($row =mysql_fetch_array($result))
+			{
+				echo "Course already exists.<br>";
 			}
 			else
 			{
-				if($row =mysql_fetch_array($result))
-				{
-					echo "Course already exists.<br>";
-				}
-				else
-				{
-					$query = "INSERT INTO categories (courseid, name, weight) VALUES (" . $_GET['id'] . ", '" . $_POST['name'] . "', " . $_POST['weight'] . ")";
-					if (!mysql_query($query)) {
-					echo "Category insertion failed: $query";
-					}
+				$query = "INSERT INTO categories (courseid, name, weight, grade) VALUES (" . $_GET['id'] . ", '" . $_POST['name'] . "', " . $_POST['weight'] . ", -1)";
+				if (!mysql_query($query)) {
+				echo "Category insertion failed: $query";
 				}
 			}
+		}
 		
 	} else {
 		echo "<p class='warning'>Please enter a category name and numeric weight.</p><br>";
@@ -33,7 +37,7 @@ if(isset($_POST['submit'])) {
 }
 
 
-
+// Update button after clicking edit
 if(isset($_POST['update'])) {
 
 	if (($_POST['name'] != "") && (is_numeric($_POST['weight']))) {
@@ -52,7 +56,7 @@ if(isset($_POST['update'])) {
 }
 
 
-
+// Delete button after clicking edit
 if(isset($_POST['delete'])) {
 
 	if (($_POST['name'] != "") && (is_numeric($_POST['weight']))) {
@@ -86,6 +90,7 @@ $query = "SELECT * FROM categories WHERE courseid=" . $_GET['id'];
 if (!($cats = mysql_query($query)))
 	die("Error with query: $query");
 
+// While loop to produce edit, update, and delete buttons on every category.
 while($cat = mysql_fetch_array($cats)) {
 	echo <<<EOT
 	<p class="listItem" onclick="show('$cat[name]')">$cat[weight]%: $cat[name]</p>
@@ -125,6 +130,7 @@ function show(type) {
 	}
 	var elements = document.getElementsByClassName(type);
 	for(var i = 0, length = elements.length; i < length; i++) {
+
 		if (elements[i].style.display == 'none')
 			elements[i].style.display='block';
 		else
@@ -134,7 +140,7 @@ function show(type) {
 </script>
 
 <br><br>
-
+<!-- Create a new category -->
 <form action="" method="POST" class="newCat" style = "display:none;">
 	Category Name<input type="text" name="name" value="Example: Homework" onblur="if (this.value == '') {this.value = 'Example: Homework';}"
 	onfocus="if (this.value == 'Example: Homework') {this.value = '';}" />
@@ -146,7 +152,7 @@ function show(type) {
 
 
 
-
+<!-- New Category button -->
 <button id="newCat" onClick="show('newCat')">New Category</button>
 
 
