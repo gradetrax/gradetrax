@@ -48,9 +48,16 @@ if (!($result = mysql_query($query))) {
 	die("Query error: " . mysql_error());
 }
 echo "<table class='incomplete' style='display:none'>";
-while ($row = mysql_fetch_array($result)) {
+	while ($row = mysql_fetch_array($result)) {
+	$query = "SELECT course FROM courses WHERE id=" . $row['courseID'];
+	if (!($result2 = mysql_query($query))) {
+		die("Query error: " . mysql_error());
+	}
+	$row2 = mysql_fetch_array($result2);
+
 	echo <<<EOT
 		<tr>
+		<td style='padding-right: 20px;'>$row2[course]</td>
 		<td style='padding-right: 20px;'>$row[name]</td>
 		<td><form name='$row[name]' method='post'>
 			<input type='hidden' name='grade' value='-2'>
@@ -74,8 +81,14 @@ if (!($result = mysql_query($query))) {
 }
 echo "<table class='tbg' style='display:none'>";
 while ($row = mysql_fetch_array($result)) {
+	$query = "SELECT course FROM courses WHERE id=" . $row['courseID'];
+	if (!($result2 = mysql_query($query))) {
+		die("Query error: " . mysql_error());
+	}
+	$row2 = mysql_fetch_array($result2);
 		echo <<<EOT
 		<tr>
+		<td style='padding-right: 20px;'>$row2[course]</td>
 		<td style='padding-right: 20px;'>$row[name]</td>
 		<td><form name='$row[name]' method='post'>
 			<input type='hidden' name='assignment' value='$row[id]'>
@@ -99,8 +112,15 @@ if (!($result = mysql_query($query))) {
 }
 echo "<table class='graded' style='display:none'>";
 while ($row = mysql_fetch_array($result)) {
+	$query = "SELECT course FROM courses WHERE id=" . $row['courseID'];
+	if (!($result2 = mysql_query($query))) {
+		die("Query error: " . mysql_error());
+	}
+	$row2 = mysql_fetch_array($result2);
+
 	echo <<<EOT
 	<tr>
+	<td style='padding-right: 20px;'>$row2[course]</td>
 	<td style='padding-right: 20px;'>$row[name]</td>
 	<td>$row[grade]%</td>
 	</tr>
