@@ -169,6 +169,37 @@ button:hover, input[type="submit"]:hover, .mainButton:hover, .smallButton:hover 
 	margin-right: 35px;
 }
 
+.clearfloat {
+	clear: both;
+}
+
+
+/***** GPA styles **********/
+
+#completedGPA, #semesterGPA, #projectedGPA {
+	font-size: 24px;
+	font-family: cooper std black;
+	font-weight: heavy;
+	float: left;
+	margin-right: 60px;
+	text-align: center;
+}
+
+#completedGPA {
+	color: #E0702D;
+}
+
+#semesterGPA {
+	color: #42B359;
+}
+
+#projectedGPA {
+	color: #42A0B3;
+}
+
+
+
+
 
 
 
