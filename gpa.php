@@ -34,13 +34,13 @@ if ($results = mysql_query($query)) {
 		$completedGPA=number_format($total/$credits,3);
 		// echo "Your GPA on past coursework is " . $completedGPA;
 		
-		// Testing
+		// Display 3 calculated GPAs
 		echo "<span id='completedGPA'>Completed Coursework<br>" . $completedGPA . "</span>";
 		echo "<span id='semesterGPA'>Projected Semester<br>{Coming Soon}</span>";
 		echo "<span id='projectedGPA'>Projected Total<br>{Coming Soon}</span>";
 		
 		echo "<div class='clearfloat'></div>";
-		// /Testing
+		// /Display
 		
 		echo "<br><br><br>";
 
