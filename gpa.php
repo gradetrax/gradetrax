@@ -18,12 +18,13 @@ if ($results = mysql_query($query)) {
 		// Add first course
 		$courses[] = $row;
 		$total=$total+($row["credits"]*$row["grade"]);
-			$credits=$credits+$row["credits"];
+		$credits=$credits+$row["credits"];
 
 		while ($row = mysql_fetch_array($results)) {
 			$courses[] = $row; // Add the rest of the courses
 			
 			// Sum hours and credits:
+			
 			// echo "Course : " . $course["course"] . " Credits : " . $course["credits"] . " Grade : " . $course["grade"]. "<br>";
 			$total=$total+($row["credits"]*$row["grade"]);
 			$credits=$credits+$row["credits"];
@@ -57,7 +58,17 @@ if ($results = mysql_query($query)) {
 			echo "<tr>";
 			echo "<td>".$course['course']."</td>";
 			echo "<td>".$course['credits']."</td>";
-			echo "<td>".$course['grade']."</td>";
+			if($course['grade']==4)
+				$letterGrade='A';
+			else if($course['grade']==3)
+				$letterGrade='B';
+			else if($course['grade']==2)
+				$letterGrade='C';
+			else if($course['grade']==1)
+				$letterGrade='D';
+			else if($course['grade']==0)
+				$letterGrade='F';
+			echo "<td>".$letterGrade."</td>";
 			echo "</tr>";
 		}
 		echo "</table>";
