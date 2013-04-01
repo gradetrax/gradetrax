@@ -146,7 +146,7 @@ while ($row = mysql_fetch_array($result)) { // Print a table row for every ungra
 	// Print information and a form to mark graded
 	echo <<<EOT
 	<tr>
-	<td style='padding-right: 20px;'>$row2[id]</td>
+	<td style='padding-right: 20px;'>$row2[course]</td>
 	<td style='padding-right: 20px;'>$row[name]</td>
 	<td><form name='$row[name]' method='post'>
 		<input type='hidden' name='categoryID' value='$row[categoryID]' />

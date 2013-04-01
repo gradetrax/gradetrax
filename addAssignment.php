@@ -1,4 +1,5 @@
 <?php
+$TITLE = "Add Assignment";
 require 'header.php';
 
 
