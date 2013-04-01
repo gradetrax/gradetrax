@@ -3,15 +3,16 @@ $TITLE = "Finished Courses";
 require 'header.php';
 
 
-if (isset($_POST['submit'])) {
-	if (is_numeric($_POST['credits']) && is_numeric($_POST['number']) && ($_POST['name'] != "") && ($_POST['grade'] != "")) {
-	
+if (isset($_POST['submit'])) { // Form to create course has been submitted
+
+	if (is_numeric($_POST['credits']) && is_numeric($_POST['number']) && ($_POST['name'] != "") && ($_POST['grade'] != "")) { // Form values were appropriately filled
+		// Inserts new completed course
 		$query = "INSERT INTO completed_courses (username, department, course, number, credits, grade) VALUES ('" . $_SESSION['username'] . "', '" . $_POST['dept'] . "', '" . $_POST['name'] . "', " . $_POST['number'] . ", '" . $_POST['credits'] . "', " . $_POST['grade'] . ")";
 		
-		if (!mysql_query($query)) {
+		if (!mysql_query($query)) { // Query failed
 			die("Query failed: " . mysql_error());
-		} else {
-			
+		} else { // Query succeeded
+			// Redirect
 			?>
 			<script language="JavaScript">
 					window.location = "gpa.php";
@@ -19,7 +20,7 @@ if (isset($_POST['submit'])) {
 			<?php		
 		}
 		
-	} else {
+	} else { // Form values were not appropriately filled
 		echo "<p class='warning'>Please fill all fields.</p>";
 	}
 }

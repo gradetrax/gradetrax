@@ -2,7 +2,8 @@
 $TITLE = "View Courses";
 require 'header.php';
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['submit'])) { // Form to edit course has been submitted
+	// Updates a row
 	$query = "UPDATE courses SET 
 			credits=" . $_POST['credits'] . 
 			", instructor='" . $_POST['instructor'] . 
@@ -12,7 +13,7 @@ if (isset($_POST['submit'])) {
 			"', course='" . $_POST['course'] . 
 			"' WHERE id=" . $_GET['id'];
 	//echo $query;
-	if (!mysql_query($query)) {
+	if (!mysql_query($query)) { // Query failed
 		echo "Query error:" . mysql_error();
 	}
 }
@@ -21,6 +22,7 @@ if (isset($_POST['submit'])) {
 
 
 <script>
+// Shows or hides elements where class='type'
 function show() {
 	document.getElementById('origData').style.display='none';
 	var elements = document.getElementsByClassName('editBox');
@@ -32,22 +34,24 @@ function show() {
 
 <?php
 
+// Returns this course
 $query = "SELECT * FROM courses WHERE id={$_GET['id']}";
-//echo $query;
-if (!($result = mysql_query($query))) {
+
+if (!($result = mysql_query($query))) { // Query failed
 	echo "Error with query $query";
 } else {
-	$row = mysql_fetch_array($result);
-	if ($_SESSION['username'] != $row['username']) {
+	$row = mysql_fetch_array($result); // Store course information
+	if ($_SESSION['username'] != $row['username']) { // User did not create the course - don't let them edit
 		echo "You do not have permission to access this course!";
 	} else {
 		
-		if ($row['grade'] < 0)
+		if ($row['grade'] < 0) // Grade not calculated yet
 			$grade = "N/A";
-		else
+		else // Grade calculated and stored
 			$grade = $row['grade'];
 
-			
+
+		// Print information and form to edit
 		echo <<<EOT
 			<h3>$row[department] $row[number]: $row[course]</h3>
 			

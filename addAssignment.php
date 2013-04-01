@@ -4,44 +4,48 @@ require 'header.php';
 
 if (isset($_POST['submit'])) {
 
-	echo "<pre>";
-	print_r($_POST);
-	echo "</pre><br><br>";
+	// Prints out POST array for debugging
+	// echo "<pre>";
+	// print_r($_POST);
+	// echo "</pre><br><br>";
 
-	if (($_POST['name'] != "")) {
+	if (($_POST['name'] != "")) { // The last form was submitted - add asignment
 	
+		// Insert new assignment
 		$query = "INSERT INTO assignments (name, courseID, grade, username, categoryID) VALUES ('" . $_POST['name'] . "', "  . $_POST['courseID'] . ", -1, '" . $_SESSION['username'] . "', " . $_POST['categoryID'] . ")";
 		
-		if (!mysql_query($query)) {
+		if (!mysql_query($query)) { // Query failed
 			die("Query failed: " . mysql_error());
-		} else {
-			// ?>
+		} else { // Query worked - redirect
+			?>
 			 <script language="JavaScript">
-				// window.location = "grades.php";
+				window.location = "grades.php";
 			 </script>			
-			// <?php
+			<?php
 		}
 		
 	} else {
 		echo "<p class='warning'>Please fill all fields.</p>";
 	}
-} else if (isset($_POST['submit1'])) {
+} else if (isset($_POST['submit1'])) { // The first form was submitted - display second
 
+	// Prints out POST array for debugging
 	// echo "<pre>";
 	// print_r($_POST);
 	// echo "</pre><br><br>";
 
 ?>
+	<!-- Form for choosing category -->
 	<form method="post" action="">
-<br>Category:
+	<br>Category:
 	<select name="categoryID"> <!-- Dropdown to select category for new assignment -->
 	<?php
-
+		// Returns all categories for the selected course
 		$query = "SELECT * FROM categories WHERE courseID='" . $_POST['courseID'] . "' ORDER BY weight ASC";
-		if (!($result = mysql_query($query))) {
+		if (!($result = mysql_query($query))) { // Query failed
 			die("Query error: " . mysql_error());
 		}
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysql_fetch_array($result)) { // Print an option in the dropdown for each category
 			echo <<<EOT
 			<option value="$row[id]">$row[weight]%: $row[name]</option>
 EOT;
@@ -59,7 +63,7 @@ EOT;
 
 
 <?php
-} else {
+} else { // Nothing has been submitted - display first form
 
 ?>
 
@@ -73,12 +77,12 @@ EOT;
 <br>Class:
 	<select name="courseID">
 	<?php
-
+		// Returns all courses for this user
 		$query = "SELECT * FROM courses WHERE username='" . $_SESSION['username'] . "'";
-		if (!($result = mysql_query($query))) {
+		if (!($result = mysql_query($query))) { // Query failed
 			die("Query error: " . mysql_error());
 		}
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysql_fetch_array($result)) { // Print an option in the dropdown for each class
 			echo <<<EOT
 			<option value="$row[id]">$row[course]</option>
 EOT;

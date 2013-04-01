@@ -4,33 +4,38 @@
 
 $TITLE = "Course Grade";
 require('header.php');
-$weightTotal = 0; // To check if the user's total grade percentage is 100.
 
-// Making a new category form and data submittal
-if(isset($_POST['submit'])) {		// If the submit button has been clicked.
+$weightTotal = 0; // To check if the user's total grade percentage is 100
 
-	if (($_POST['name'] != "") && (is_numeric($_POST['weight']))) {
+
+if(isset($_POST['submit'])) { // If the submit button has been clicked
+
+	if (($_POST['name'] != "") && (is_numeric($_POST['weight']))) { // The fields were appropriately filled
+	
+		// Returns name of category where the name is equal to the name entered in the form
+		// Just checks to see if that name is already in the table
 		$query="SELECT name FROM categories WHERE name='" . $_POST['name'] . "'";
-		if(!($result=mysql_query($query)))	// If the querey didn't work.
+		if(!($result=mysql_query($query)))	// Query failed
 		{
 			echo "Name selection failed";
 		}
-		else
+		else // Query succeeded
 		{
-			if($row =mysql_fetch_array($result))
+			if ($row = mysql_fetch_array($result)) // The name was returned - name in table
 			{
 				echo "Course already exists.<br>";
 			}
-			else
+			else // Nothing was returned - name not in table
 			{
+				// Insert new category
 				$query = "INSERT INTO categories (courseid, name, weight, grade) VALUES (" . $_GET['id'] . ", '" . $_POST['name'] . "', " . $_POST['weight'] . ", -1)";
-				if (!mysql_query($query)) {
-				echo "Category insertion failed: $query";
+				if (!mysql_query($query)) { // Query failed
+					die("Category insertion failed: $query");
 				}
 			}
 		}
 		
-	} else {
+	} else { // The fields were not appropriately filled
 		echo "<p class='warning'>Please enter a category name and numeric weight.</p><br>";
 	}
 	
@@ -40,16 +45,15 @@ if(isset($_POST['submit'])) {		// If the submit button has been clicked.
 // Update button after clicking edit
 if(isset($_POST['update'])) {
 
-	if (($_POST['name'] != "") && (is_numeric($_POST['weight']))) {
-		
+	if (($_POST['name'] != "") && (is_numeric($_POST['weight']))) { // Fields were filled appropriately
+		// Updates a row
 		$query = "UPDATE categories SET name='" . $_POST['name'] . "', weight=" . $_POST['weight'] . " WHERE name='" . $_POST['category'] . "'";
-//		echo $query;
-		if (!mysql_query($query)) {
+		if (!mysql_query($query)) { // Query failed
 			echo "Update failed: $query";
 			echo "<br>" . mysql_error();
 		}
 		
-	} else {
+	} else { // Fields were not appropriately filled
 		echo "Please enter a category name and numeric weight.<br><br>";
 	}
 	
@@ -59,16 +63,15 @@ if(isset($_POST['update'])) {
 // Delete button after clicking edit
 if(isset($_POST['delete'])) {
 
-	if (($_POST['name'] != "") && (is_numeric($_POST['weight']))) {
-		
+	if (($_POST['name'] != "") && (is_numeric($_POST['weight']))) { // Fields were filled appropriately
+		// Deletes a category
 		$query = "DELETE FROM categories WHERE name='" . $_POST['category'] . "' AND courseID=". $_GET['id'];
-//		echo $query;
-		if (!mysql_query($query)) {
+		if (!mysql_query($query)) { // Query failed
 			echo "Update failed: $query";
 			echo "<br>" . mysql_error();
 		}
 		
-	} else {
+	} else { // Fields were not appropriately filled
 		echo "Please enter a category name and numeric weight.<br><br>";
 	}
 	
@@ -77,20 +80,22 @@ if(isset($_POST['delete'])) {
 
 
 
-
+// Returns data for this course
 $query = "SELECT * FROM courses WHERE id = " . $_GET['id'];
-if (!($course = mysql_query($query)))
+if (!($course = mysql_query($query))) // Query failed
 	die("Error with query: $query");
 
-$course = mysql_fetch_array($course);
-if ($_SESSION['username'] != $course['username'])
+$course = mysql_fetch_array($course); // Get first row
+if ($_SESSION['username'] != $course['username']) // The courseID was not for a course the user created - don't let them edit
 	die("You don't have permission to access this course!");
 
+// Returns all categories for this course
 $query = "SELECT * FROM categories WHERE courseid=" . $_GET['id'];
-if (!($cats = mysql_query($query)))
+if (!($cats = mysql_query($query))) // Query failed
 	die("Error with query: $query");
 
-// While loop to produce edit, update, and delete buttons on every category.
+
+// Print information and edit, update, and delete buttons for each category
 while($cat = mysql_fetch_array($cats)) {
 	echo <<<EOT
 	<p class="listItem" onclick="show('$cat[name]')">$cat[weight]%: $cat[name]</p>
@@ -107,14 +112,12 @@ while($cat = mysql_fetch_array($cats)) {
 	<br><input type="submit" class="editBox" name="delete" value="delete" />
 	</form>
 	
-
-	
-	
-	
 EOT;
-$weightTotal += $cat['weight'];
+
+$weightTotal += $cat['weight']; // Add weight to total
 }
-if (($weightTotal < 100) OR ($weightTotal > 100))
+
+if (($weightTotal < 100) OR ($weightTotal > 100)) // Weights entered to not sum to 100%
 	echo "Warning: Your grade percentages do not add up to 100.";
 
 ?>
@@ -124,6 +127,7 @@ if (($weightTotal < 100) OR ($weightTotal > 100))
 
 
 <script>
+// Shows or hides elements where class='type'
 function show(type) {
 	if (type == 'newCat') {
 		document.getElementById('newCat').style.display='none';
@@ -140,7 +144,7 @@ function show(type) {
 </script>
 
 <br><br>
-<!-- Create a new category -->
+<!-- Form to create a new category -->
 <form action="" method="POST" class="newCat" style = "display:none;">
 	Category Name<input type="text" name="name" value="Example: Homework" onblur="if (this.value == '') {this.value = 'Example: Homework';}"
 	onfocus="if (this.value == 'Example: Homework') {this.value = '';}" />
@@ -148,9 +152,6 @@ function show(type) {
 	onfocus="if (this.value == 'Example: 20') {this.value = '';}" />
 	<br><input type="submit" class="editBox" name="submit" value="Submit" />
 </form>
-
-
-
 
 <!-- New Category button -->
 <button id="newCat" onClick="show('newCat')">New Category</button>
