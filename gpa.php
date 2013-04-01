@@ -17,6 +17,8 @@ if ($results = mysql_query($query)) {
 
 		// Add first course
 		$courses[] = $row;
+		$total=$total+($row["credits"]*$row["grade"]);
+			$credits=$credits+$row["credits"];
 
 		while ($row = mysql_fetch_array($results)) {
 			$courses[] = $row; // Add the rest of the courses
