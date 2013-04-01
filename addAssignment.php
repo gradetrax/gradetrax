@@ -17,6 +17,7 @@ if (isset($_POST['submit'])) {
 		if (!mysql_query($query)) { // Query failed
 			die("Query failed: " . mysql_error());
 		} else { // Query worked - redirect
+			unset($_POST);
 			?>
 			 <script language="JavaScript">
 				window.location = "grades.php";

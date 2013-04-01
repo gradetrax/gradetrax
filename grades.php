@@ -10,21 +10,58 @@ if (isset($_POST['grade'])) { // An assignment was marked graded
 	// print_r($_POST);
 	// echo '</pre>';
 	
-	// Updates grade from -2 to a number.
+	// Updates grade from -1 to -2 (incomplete to complete) or -2 to a number (complete to graded).
 	$query = "UPDATE assignments SET grade=" . $_POST['grade'] . " WHERE id=" . $_POST['assignment'];
 	if (!mysql_query($query)) { // Query failed
-		die("Query failed: " . mysql_error());
+		die("Assignment update error: " . mysql_error());
 	}
-	// Returns all graded assignments in the category
-	$query = "SELECT grade FROM assignments WHERE categoryID=" . $_POST['categoryID'] . " AND grade<=0";
-	if (!($result = mysql_query($query))) { // Query failed
-		die("Query failed: " . mysql_error());
-	}
-	while ($row = mysql_fetch_array($result)) // Do something for each graded assignment
-	{
-		echo "<pre>";
-		print_r($row);
-		echo "</pre>";
+
+	if ($_POST['grade'] >= 0) {
+		// Returns all graded assignments in the category
+		$query = "SELECT grade FROM assignments WHERE categoryID=" . $_POST['categoryID'] . " AND grade>-1";
+		if (!($result = mysql_query($query))) { // Query failed
+			die("Category grades retrieval error: " . mysql_error());
+		}
+		$total = 0; // Sum of grades
+		$count = 0; // Number of graded assignments
+		while ($row = mysql_fetch_array($result)) // Do something for each graded assignment
+		{
+			// Print graded assignments for debugging
+			// echo "<pre>";
+			// print_r($row);
+			// echo "</pre><br>";
+		
+			$total += $row['grade'];
+			$count += 1;
+			
+		}
+		$categoryAverage = $total / $count;
+		// echo $categoryAverage;
+		
+		// Stores new average of this category
+		$query = "UPDATE categories SET grade=" . $categoryAverage . " WHERE id=" . $_POST['categoryID'];
+		if (!($result = mysql_query($query))) { // Query failed
+			die("Category update error: " . mysql_error());
+		}
+		
+		// Returns all category averages
+		$query = "SELECT * FROM categories WHERE courseID=" . $_POST['courseID'] . " AND grade>-1";
+		if (!($result = mysql_query($query))) { // Query failed
+			die("Category averaging error: " . mysql_error());
+		}
+		$total = 0;
+		$weightGraded = 0;
+		while($row = mysql_fetch_array($result)) { // For each category average retrieved
+			$total += $row['grade'] * $row['weight'];
+			$weightGraded += $row['weight'];
+		}
+		$courseAverage = $total / $weightGraded;
+		
+		// Store newly calculated course average
+		$query = "UPDATE courses SET grade=" . $courseAverage . " WHERE id=" . $_POST['courseID'];
+		if (!($result = mysql_query($query))) { // Query failed
+			die("Course average updating error: " . mysql_error());
+		}
 	}
 }
 
@@ -100,19 +137,20 @@ if (!($result = mysql_query($query))) { // Query failed
 echo "<table class='tbg' style='display:none'>";
 while ($row = mysql_fetch_array($result)) { // Print a table row for every ungraded assignment
 	// Returns course which this assignment is for
-	$query = "SELECT course FROM courses WHERE id=" . $row['courseID'];
+	$query = "SELECT * FROM courses WHERE id=" . $row['courseID'];
 	if (!($result2 = mysql_query($query))) { // Query failed
 		die("Query error: " . mysql_error());
 	}
-	$row2 = mysql_fetch_array($result2); // Store name of course
+	$row2 = mysql_fetch_array($result2); // Store course
 
 	// Print information and a form to mark graded
 	echo <<<EOT
 	<tr>
-	<td style='padding-right: 20px;'>$row2[course]</td>
+	<td style='padding-right: 20px;'>$row2[id]</td>
 	<td style='padding-right: 20px;'>$row[name]</td>
 	<td><form name='$row[name]' method='post'>
-		<input type='hidden' name='categoryID' value='$row[categoryID]' />			
+		<input type='hidden' name='categoryID' value='$row[categoryID]' />
+		<input type='hidden' name='courseID' value='$row2[id]' />
 		<input type='hidden' name='assignment' value='$row[id]' />
 		<a class="listItem" onclick="submitForm('$row[name]')">Mark Graded:</a>
 		<input type='text' name='grade' style='width: 2.5em !important' />
