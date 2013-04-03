@@ -101,7 +101,11 @@ button, input[type="submit"] {
 
 .mainButton , button, input[type="submit"] {
 	background: #97C9D1;
-	background: linear-gradient(#687587, #404853);
+	background-image: -webkit-linear-gradient(top, #6BC2C9, #4AA5BC); 
+	background-image:    -moz-linear-gradient(top, #5BC2C9, #3A959C); 
+	background-image:     -ms-linear-gradient(top, #5BC2C9, #3A959C); 
+	background-image:      -o-linear-gradient(top, #5BC2C9, #3A959C); 
+	background-image:         linear-gradient(top, #5BC2C9, #8AE59C);
 	border: 1px solid rgba(0, 0, 0, 0.2);
 	-moz-border-radius: 5px;
 	border-radius: 5px;
