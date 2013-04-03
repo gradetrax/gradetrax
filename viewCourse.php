@@ -41,7 +41,7 @@ if (!($result = mysql_query($query))) { // Query failed
 	echo "Error with query $query";
 } else {
 	$row = mysql_fetch_array($result); // Store course information
-	if ($_SESSION['username'] != $row['username']) { // User did not create the course - don't let them edit
+	if ($_SESSION['username'] != $row['username']) { // User did not create the course - don't let them edit it
 		echo "You do not have permission to access this course!";
 	} else {
 		
@@ -86,9 +86,10 @@ if (!($result = mysql_query($query))) { // Query failed
 EOT;
 
 		echo '<br><br><a href="removeCourse.php?id=' . $_GET['id'] . '" class="mainButton">Delete Course</a>';
+		echo '<br><a href="completeCourse.php?id=' . $_GET['id'] . '" class="mainButton">Mark Complete</a>';
 	}
 
-	echo '<br><a href="courses.php" class="mainButton">Return to All Courses</a>';
+	echo '<br><br><a href="courses.php" class="mainButton">Return to All Courses</a>';
 
 }
 

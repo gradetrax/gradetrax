@@ -8,7 +8,7 @@ require 'header.php';
 <?php
 $total=0;
 $credits=0;
-$query = "SELECT * FROM completed_courses WHERE username='" . $_SESSION['username']."'" ;
+$query = "SELECT * FROM completed_courses WHERE username='" . $_SESSION['username']."' ORDER BY department ASC";
 if ($results = mysql_query($query)) {
 
 	$courses = array();
