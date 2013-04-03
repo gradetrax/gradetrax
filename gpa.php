@@ -31,16 +31,60 @@ if ($results = mysql_query($query)) {
 		}
 
 		// Calculate and print GPA
-		$completedGPA=number_format($total/$credits,3);
+		$completedGPA = number_format($total/$credits,3);
 		// echo "Your GPA on past coursework is " . $completedGPA;
 		
-		// Display 3 calculated GPAs
-		echo "<span id='completedGPA'>Completed Coursework<br>" . $completedGPA . "</span>";
-		echo "<span id='semesterGPA'>Projected Semester<br>{Coming Soon}</span>";
-		echo "<span id='projectedGPA'>Projected Total<br>{Coming Soon}</span>";
+		$query = "SELECT * FROM courses WHERE username='" . $_SESSION['username'] . "' AND grade>-1";
+		if ($results = mysql_query($query)) {
+			$row = mysql_fetch_array($results);
+			if (is_array($row)) {
+				// Calculate grade points
+				if ($row['grade'] > 90) $grade = 4;
+				elseif ($row['grade'] > 80) $grade = 3;
+				elseif ($row['grade'] > 70) $grade = 2;
+				elseif ($row['grade'] > 60) $grade = 1;
+				else $grade = 0;
+
+				// Overall GPA calculations
+				$total += $row['credits'] * $grade;
+				$credits += $row['credits'];
+				
+				// Projected semester GPA calculations
+				$ipTotal = $row['credits'] * $grade;
+				$ipCredits = $row['credits'];
+				
+				// Loop through each IP course
+				while ($row = mysql_fetch_array($results)) {
+					// Calculate grade points
+					if ($row['grade'] > 90) $grade = 4;
+					elseif ($row['grade'] > 80) $grade = 3;
+					elseif ($row['grade'] > 70) $grade = 2;
+					elseif ($row['grade'] > 60) $grade = 1;
+					else $grade = 0;
+
+					// Overall GPA calculations
+					$total += $row['credits'] * $grade;
+					$credits += $row['credits'];
+					
+					// Projected semester GPA calculations
+					$ipTotal += $row['credits'] * $grade;
+					$ipCredits += $row['credits'];
+				}
+				
+				$semesterGPA = number_format($ipTotal / $ipCredits, 3);
+				$totalGPA = number_format($total / $credits, 3);
 		
-		echo "<div class='clearfloat'></div>";
-		// /Display
+			// Display 3 calculated GPAs
+			echo "<span id='completedGPA'>Completed Coursework<br>" . $completedGPA . "</span>";
+			echo "<span id='semesterGPA'>Projected Semester<br>" . $semesterGPA . "</span>";
+			echo "<span id='projectedGPA'>Projected Total<br>" . $totalGPA . "</span>";
+			
+			echo "<div class='clearfloat'></div>";
+			// /Display
+		}
+	} else {
+		echo "IP courses query error: " . mysql_error();
+	}
 		
 		echo "<br><br><br>";
 

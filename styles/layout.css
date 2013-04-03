@@ -182,7 +182,7 @@ button:hover, input[type="submit"]:hover, .mainButton:hover, .smallButton:hover 
 
 #completedGPA, #semesterGPA, #projectedGPA {
 	font-size: 24px;
-	font-family: cooper std black;
+	font-family: times new roman;
 	font-weight: heavy;
 	float: left;
 	margin-right: 60px;
