@@ -9,7 +9,8 @@ if (isset($_POST['grade'])) { // An assignment was marked graded
 	// echo '<pre>';
 	// print_r($_POST);
 	// echo '</pre>';
-	
+	if($_POST['grade']!='')
+	{
 	// Updates grade from -1 to -2 (incomplete to complete) or -2 to a number (complete to graded).
 	$query = "UPDATE assignments SET grade=" . $_POST['grade'] . " WHERE id=" . $_POST['assignment'];
 	if (!mysql_query($query)) { // Query failed
@@ -64,6 +65,10 @@ if (isset($_POST['grade'])) { // An assignment was marked graded
 		}
 	}
 }
+else
+	echo "Please enter a grade.<br>";
+}
+
 
 ?>
 
@@ -95,7 +100,7 @@ function submitForm(formName) {
 <br><br><p class="listItem" onclick="show('incomplete');">Incomplete</p>
 <?php
 // Returns all incomplete assignments
-$query = "SELECT * FROM assignments WHERE username='" . $_SESSION['username'] . "' AND grade=-1";
+$query = "SELECT * FROM assignments WHERE username='" . $_SESSION['username'] . "' AND grade=-1  ORDER BY courseID, name ASC";
 if (!($result = mysql_query($query))) { // Query failed
 	die("Query error: " . mysql_error());
 }
@@ -130,7 +135,7 @@ echo "</table>";
 <br><br><p class="listItem" onclick="show('tbg');">To Be Graded</p>
 <?php
 // Returns all completed assignments without a grade
-$query = "SELECT * FROM assignments WHERE username='" . $_SESSION['username'] . "' AND grade=-2";
+$query = "SELECT * FROM assignments WHERE username='" . $_SESSION['username'] . "' AND grade=-2  ORDER BY courseID, name ASC";
 if (!($result = mysql_query($query))) { // Query failed
 	die("Query error: " . mysql_error());
 }
@@ -149,6 +154,7 @@ while ($row = mysql_fetch_array($result)) { // Print a table row for every ungra
 	<td style='padding-right: 20px;'>$row2[course]</td>
 	<td style='padding-right: 20px;'>$row[name]</td>
 	<td><form name='$row[name]' method='post'>
+	
 		<input type='hidden' name='categoryID' value='$row[categoryID]' />
 		<input type='hidden' name='courseID' value='$row2[id]' />
 		<input type='hidden' name='assignment' value='$row[id]' />
@@ -167,7 +173,7 @@ echo "</table>";
 <br><br><p class="listItem" onclick="show('graded');">Graded</p>
 <?php
 // Returns assignments with grades
-$query = "SELECT * FROM assignments WHERE username='" . $_SESSION['username'] . "' AND grade>=0";
+$query = "SELECT * FROM assignments WHERE username='" . $_SESSION['username'] . "' AND grade>=0 ORDER BY courseID, name ASC ";
 if (!($result = mysql_query($query))) { // Query failed
 	die("Query error: " . mysql_error());
 }
