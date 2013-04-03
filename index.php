@@ -10,7 +10,7 @@ if (!empty($_SESSION['username'])) {
 ?>
 
 		<a href="courses.php" class="mainButton">Courses</a>
-		<a href="grades.php" class="mainButton">Grades</a>
+		<a href="grades.php" class="mainButton">Assignments</a>
 		<a href="gpa.php" class="mainButton">GPA</a>
 
 <?php

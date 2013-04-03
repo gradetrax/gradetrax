@@ -196,6 +196,7 @@ echo "</table>";
 
 <br><br>
 <a href="addAssignment.php" class="mainButton">New Assignment</a>
+<br><br><br><br>
 
 
 

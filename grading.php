@@ -14,7 +14,7 @@ if(isset($_POST['submit'])) { // If the submit button has been clicked
 	
 		// Returns name of category where the name is equal to the name entered in the form
 		// Just checks to see if that name is already in the table
-		$query="SELECT name FROM categories WHERE name='" . $_POST['name'] . "'";
+		$query="SELECT name FROM categories WHERE name='" . $_POST['name'] . "' AND courseID=" . $_GET['id'];
 		if(!($result=mysql_query($query)))	// Query failed
 		{
 			echo "Name selection failed";
@@ -23,7 +23,7 @@ if(isset($_POST['submit'])) { // If the submit button has been clicked
 		{
 			if ($row = mysql_fetch_array($result)) // The name was returned - name in table
 			{
-				echo "Course already exists.<br>";
+				echo "Category already exists.<br>";
 			}
 			else // Nothing was returned - name not in table
 			{
@@ -99,7 +99,7 @@ if (!($cats = mysql_query($query))) // Query failed
 while($cat = mysql_fetch_array($cats)) {
 	echo <<<EOT
 	<p class="listItem" onclick="show('$cat[name]')">$cat[weight]%: $cat[name]</p>
-	<p class="$cat[name]" style="display: none">lol</p>
+	<!-- <p class="$cat[name]" style="display: none">lol</p> -->
 	<button class="$cat[name]"  id="edit$cat[name]" onClick="show('edit$cat[name]')"style="display: none">edit </button>
 	
 	<form action="" method="POST" class="edit$cat[name]" style = "display:none;">
