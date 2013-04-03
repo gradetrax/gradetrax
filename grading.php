@@ -100,8 +100,7 @@ while($cat = mysql_fetch_array($cats)) {
 	echo <<<EOT
 	<p class="listItem" onclick="show('$cat[name]')">$cat[weight]%: $cat[name]</p>
 	<!-- <p class="$cat[name]" style="display: none">lol</p> -->
-	<button class="$cat[name]"  id="edit$cat[name]" onClick="show('edit$cat[name]')"style="display: none">edit </button>
-	
+	<button class="$cat[name]"  id="edit$cat[name]" onClick="show('edit$cat[name]')"style="display: none">edit</button>
 	<form action="" method="POST" class="edit$cat[name]" style = "display:none;">
 	Category Name<input type="text" name="name" value="$cat[name]" onblur="if (this.value == '') {this.value = '$cat[name]';}"
 	onfocus="if (this.value == '$cat[name]') {this.value = '';}" />
@@ -109,9 +108,10 @@ while($cat = mysql_fetch_array($cats)) {
 	onfocus="if (this.value == '$cat[weight]') {this.value = '';}" />
 	<input type='hidden' value='$cat[name]' name='category'>
 	<br><input type="submit" class="editBox" name="update" value="update" />
-	<br><input type="submit" class="editBox" name="delete" value="delete" />
+	<input type="submit" class="editBox" name="delete" value="delete" />
+	<br><br>
 	</form>
-	
+	<br>
 EOT;
 
 $weightTotal += $cat['weight']; // Add weight to total
@@ -140,6 +140,7 @@ function show(type) {
 		else
 			elements[i].style.display='none';
     }
+	document.getElementById(type).style.display='none';
 };
 </script>
 

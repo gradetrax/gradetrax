@@ -49,3 +49,16 @@ EOT;
 -->
 
 <br>
+
+<?php
+// Make sure the user's logged in
+if (!isset($_SESSION['username'])) {
+	// Make sure we're not on the login page
+	$parts = Explode('/', $_SERVER["PHP_SELF"]);
+    if ($parts[count($parts) - 1] != "login.php") {
+		echo "Please log in.";
+		require 'footer.php';
+		die();
+	}
+}
+?>
