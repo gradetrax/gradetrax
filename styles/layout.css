@@ -180,14 +180,14 @@ button:hover, input[type="submit"]:hover, .mainButton:hover, .smallButton:hover 
 
 /***** GPA styles **********/
 
-#completedGPA, #semesterGPA, #projectedGPA {
+/*#completedGPA, #semesterGPA, #projectedGPA {
 	font-size: 24px;
 	font-family: times new roman;
 	font-weight: heavy;
 	float: left;
 	margin-right: 60px;
 	text-align: center;
-}
+}*/
 
 #completedGPA {
 	color: #E0702D;

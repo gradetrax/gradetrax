@@ -36,8 +36,11 @@ if ($results = mysql_query($query)) {
 		
 		$query = "SELECT * FROM courses WHERE username='" . $_SESSION['username'] . "' AND grade>-1";
 		if ($results = mysql_query($query)) {
+			$IPcourses = array();
 			$row = mysql_fetch_array($results);
 			if (is_array($row)) {
+				$IPcourses[] = $row;
+				
 				// Calculate grade points
 				if ($row['grade'] > 90) $grade = 4;
 				elseif ($row['grade'] > 80) $grade = 3;
@@ -55,6 +58,8 @@ if ($results = mysql_query($query)) {
 				
 				// Loop through each IP course
 				while ($row = mysql_fetch_array($results)) {
+					$IPcourses[] = $row;
+					
 					// Calculate grade points
 					if ($row['grade'] > 90) $grade = 4;
 					elseif ($row['grade'] > 80) $grade = 3;
@@ -74,22 +79,54 @@ if ($results = mysql_query($query)) {
 				$semesterGPA = number_format($ipTotal / $ipCredits, 3);
 				$totalGPA = number_format($total / $credits, 3);
 		
+		
 			// Display 3 calculated GPAs
-			echo "<span id='completedGPA'>Completed Coursework<br>" . $completedGPA . "</span>";
-			echo "<span id='semesterGPA'>Projected Semester<br>" . $semesterGPA . "</span>";
-			echo "<span id='projectedGPA'>Projected Total<br>" . $totalGPA . "</span>";
+			// echo "<span id='completedGPA'>Completed Coursework<br>" . $completedGPA . "</span>";
+			// echo "<span id='semesterGPA'>Projected Semester<br>" . $semesterGPA . "</span>";
+			// echo "<span id='projectedGPA'>Projected Total<br>" . $totalGPA . "</span>";
 			
-			echo "<div class='clearfloat'></div>";
+			// echo "<div class='clearfloat'></div>";
 			// /Display
+			
+			echo "<br><br>";
+			
+			echo "<h3 id='projectedGPA'>Projected Total: $totalGPA</h3>";
+			
+			echo "<br><br>";
+			
+			// Start table
+			echo "<span style='float: left; margin-right: 80px'>";
+			echo "<h3 id='semesterGPA'>Incomplete Courses: $semesterGPA</h3>";
+			echo "<table border='1' cellspacing='0' cellpadding='5'>";
+			echo "<tr>";
+			echo "<th>Course Name</th>";
+			echo "<th>Credits</th>";
+			echo "<th>Grade</th>";
+			echo "</tr>";
+			// echo "<ul style='padding: 0px'>";
+			// Print each course as a row
+			foreach ($IPcourses as $course) {
+				echo "<tr>";
+				echo "<td>".$course['course']."</td>";
+				echo "<td>".$course['credits']."</td>";
+				echo "<td>".$course['grade']."</td>";
+				echo "</tr>";
+			}
+			echo "</table>";
+			echo "</span>";
+		} else {
+			echo "You have no courses in progress.<br>";
 		}
 	} else {
 		echo "IP courses query error: " . mysql_error();
 	}
 		
-		echo "<br><br><br>";
+		
 
 		
 		// Start table
+		echo "<span style='float: left'>";
+		echo "<h3 id='completedGPA'>Completed Courses: $completedGPA</h3>";
 		echo "<table border='1' cellspacing='0' cellpadding='5'>";
 		echo "<tr>";
 		echo "<th>Course Name</th>";
@@ -116,6 +153,7 @@ if ($results = mysql_query($query)) {
 			echo "</tr>";
 		}
 		echo "</table>";
+		echo "</span>";
 
 	} else {
 		echo "You have no completed courses saved.";
@@ -126,7 +164,7 @@ if ($results = mysql_query($query)) {
 
 
 
-
+<div class="clearfloat"></div>
 <br><br><br><br>
 <a href="finishedCourses.php" class="mainButton">Add Completed Course</a>
 <br><br><br><br>
