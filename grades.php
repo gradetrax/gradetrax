@@ -96,6 +96,12 @@ function submitForm(formName) {
 
 <h3>Grades</h3>
 
+
+
+
+<a href="addAssignment.php" class="mainButton">New Assignment</a>
+<br>
+
 <!-- Incomplete assignments are listed in the database where grade = -1 -->
 <br><br><p class="listItem" onclick="show('incomplete');">Incomplete</p>
 <?php
@@ -200,8 +206,7 @@ echo "</table>";
 
 
 
-<br><br>
-<a href="addAssignment.php" class="mainButton">New Assignment</a>
+
 <br><br><br><br>
 
 
