@@ -96,7 +96,7 @@ if ($results = mysql_query($query)) {
 			
 			// Start table
 			echo "<span style='float: left; margin-right: 80px'>";
-			echo "<h3 id='semesterGPA'>Incomplete Courses: $semesterGPA</h3>";
+			echo "<h3 id='semesterGPA'>Current Courses: $semesterGPA</h3>";
 			echo "<table border='1' cellspacing='0' cellpadding='5'>";
 			echo "<tr>";
 			echo "<th>Course Name</th>";

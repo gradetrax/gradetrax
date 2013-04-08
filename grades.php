@@ -196,8 +196,10 @@ while ($row = mysql_fetch_array($result)) { // Print each graded assignment
 	echo <<<EOT
 	<tr>
 	<td style='padding-right: 20px;'>$row2[course]</td>
-	<td style='padding-right: 20px;'>$row[name]</td>
-	<td>$row[grade]%</td>
+	<td style='padding-right: 20px;'>
+	<a href="editAssignment.php?name=$row[name]&grade=$row[grade]&course=$row[courseID]">$row[name]</a>
+	</td>
+	<td style='padding-right: 20px;'>$row[grade]%</td>
 	</tr>
 EOT;
 }
