@@ -8,7 +8,7 @@ require 'header.php';
 <?php
 $total=0;
 $credits=0;
-$query = "SELECT * FROM completed_courses WHERE username='" . $_SESSION['username']."' ORDER BY department ASC";
+$query = "SELECT * FROM completed_courses WHERE username='" . $_SESSION['username']."' ORDER BY department, number ASC";
 if ($results = mysql_query($query)) {
 
 	$courses = array();
@@ -137,7 +137,7 @@ if ($results = mysql_query($query)) {
 		// Print each course as a row
 		foreach ($courses as $course) {
 			echo "<tr>";
-			echo "<td>".$course['course']."</td>";
+			echo "<td><a href='editCourse.php?id=" . $course['id'] . "'>".$course['course']."</a></td>";
 			echo "<td>".$course['credits']."</td>";
 			if($course['grade']==4)
 				$letterGrade='A';

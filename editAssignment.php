@@ -3,6 +3,8 @@ require 'header.php';
 
 if (!isset($_GET['name']) || !isset($_GET['grade']) || !isset($_GET['course'])) {
 	echo "Assignment not defined. <a href='grades.php'>Return to assignments.</a>";
+	require 'footer.php';
+	die();
 }
 
 if (isset($_POST['submit'])) {
