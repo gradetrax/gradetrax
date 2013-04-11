@@ -5,14 +5,20 @@ require 'header.php';
 
 
 echo "<br>
-	  <center>";
+	  <center>
+	  <table>";
 if (!empty($_SESSION['username'])) {
 ?>
 
-		<a href="courses.php" class="mainButton">Courses</a>
-		<a href="grades.php" class="mainButton">Assignments</a>
-		<a href="gpa.php" class="mainButton">GPA</a>
-
+		<tr>
+		<td><a href="courses.php" class="mainButton">Courses</a></td>
+		<td><a href="grades.php" class="mainButton">Assignments</a></td>
+		<td><a href="gpa.php" class="mainButton">GPA</a></td>
+		</tr><tr>
+		<td></td>
+		<td><center><a href="classmates.php" class="mainButton">Classmates</a></center></td>
+		</tr>
+		
 <?php
 } else {
 
@@ -20,7 +26,8 @@ if (!empty($_SESSION['username'])) {
 
 }
 
-echo "</center>";
+echo "</table>
+	  </center>";
 
 
 
