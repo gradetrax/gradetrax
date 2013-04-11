@@ -1,4 +1,5 @@
 <?php
+$TITLE = "Edit Assignment";
 require 'header.php';
 
 if (!isset($_GET['name']) || !isset($_GET['grade']) || !isset($_GET['course'])) {

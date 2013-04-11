@@ -5,6 +5,10 @@ require 'header.php';
 
 <h3>GPA</h3>
 
+
+<div class="clearfloat"></div>
+
+
 <?php
 $total=0;
 $credits=0;
@@ -96,7 +100,13 @@ if ($results = mysql_query($query)) {
 			
 			// Start table
 			echo "<span style='float: left; margin-right: 80px'>";
+			?>
+	
+<a href="courses.php" class="mainButton">Add Incompleted Course</a>
+		
+<?php
 			echo "<h3 id='semesterGPA'>Current Courses: $semesterGPA</h3>";
+				
 			echo "<table border='1' cellspacing='0' cellpadding='5'>";
 			echo "<tr>";
 			echo "<th>Course Name</th>";
@@ -120,12 +130,15 @@ if ($results = mysql_query($query)) {
 	} else {
 		echo "IP courses query error: " . mysql_error();
 	}
-		
-		
 
 		
 		// Start table
 		echo "<span style='float: left'>";
+			?>
+	
+<a href="finishedCourses.php" class="mainButton">Add Completed Course</a>
+		
+<?php
 		echo "<h3 id='completedGPA'>Completed Courses: $completedGPA</h3>";
 		echo "<table border='1' cellspacing='0' cellpadding='5'>";
 		echo "<tr>";
@@ -164,9 +177,6 @@ if ($results = mysql_query($query)) {
 
 
 
-<div class="clearfloat"></div>
-<br><br><br><br>
-<a href="finishedCourses.php" class="mainButton">Add Completed Course</a>
 <br><br><br><br>
 
 
