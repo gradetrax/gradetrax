@@ -147,7 +147,8 @@ EOT;
 	}
 	
 	// Calculate average
-	$catAverage = number_format($catAverage / $catAssignments, 2);
+	if ($catAssignments != 0)
+		$catAverage = number_format($catAverage / $catAssignments, 2);
 	
 	echo <<<EOT
 	</table>

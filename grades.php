@@ -197,7 +197,7 @@ while ($row = mysql_fetch_array($result)) { // Print each graded assignment
 	<tr>
 	<td style='padding-right: 20px;'>$row2[course]</td>
 	<td style='padding-right: 20px;'>
-	<a href="editAssignment.php?name=$row[name]&grade=$row[grade]&course=$row[courseID]">$row[name]</a>
+	<a href="editAssignment.php?name=$row[name]&grade=$row[grade]&course=$row[courseID]&category=$row[categoryID]&course=$row[courseID]">$row[name]</a>
 	</td>
 	<td style='padding-right: 20px;'>$row[grade]%</td>
 	</tr>
