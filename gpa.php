@@ -38,6 +38,7 @@ if ($results = mysql_query($query)) {
 		$completedGPA = number_format($total/$credits,3);
 		// echo "Your GPA on past coursework is " . $completedGPA;
 		
+		
 		$query = "SELECT * FROM courses WHERE username='" . $_SESSION['username'] . "' AND grade>-1";
 		if ($results = mysql_query($query)) {
 			$IPcourses = array();
@@ -95,6 +96,13 @@ if ($results = mysql_query($query)) {
 			echo "<br><br>";
 			
 			echo "<h3 id='projectedGPA'>Projected Total: $totalGPA</h3>";
+			if ($totalGPA>=2.00)
+			    echo "Good Standing";
+			else
+			  echo "Academic Probation";
+				
+				
+						
 			
 			echo "<br><br>";
 			
@@ -106,6 +114,10 @@ if ($results = mysql_query($query)) {
 		
 <?php
 			echo "<h3 id='semesterGPA'>Current Courses: $semesterGPA</h3>";
+			if ($semesterGPA==4.00)
+			    echo "Eligible for recognition on the President’s List";
+			else if ($semesterGPA>=3.50)
+			    echo "Eligible for recognition on the Dean’s List";
 				
 			echo "<table border='1' cellspacing='0' cellpadding='5'>";
 			echo "<tr>";
@@ -140,6 +152,10 @@ if ($results = mysql_query($query)) {
 		
 <?php
 		echo "<h3 id='completedGPA'>Completed Courses: $completedGPA</h3>";
+		if ($totalGPA>=2.00)
+			    echo "Good Standing";
+			else
+			  echo "Academic Probation";
 		echo "<table border='1' cellspacing='0' cellpadding='5'>";
 		echo "<tr>";
 		echo "<th>Course Name</th>";
