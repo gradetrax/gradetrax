@@ -117,7 +117,7 @@ if ($results = mysql_query($query)) {
 			// Print each course as a row
 			foreach ($IPcourses as $course) {
 				echo "<tr>";
-				echo "<td>".$course['course']."</td>";
+				echo "<td><a href='grading.php?id=" . $course['id'] . "'>".$course['course']."</a></td>";
 				echo "<td>".$course['credits']."</td>";
 				echo "<td>".$course['grade']."</td>";
 				echo "</tr>";
