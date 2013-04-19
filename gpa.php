@@ -96,10 +96,10 @@ if ($results = mysql_query($query)) {
 			echo "<br><br>";
 			
 			echo "<h3 id='projectedGPA'>Projected Total: $totalGPA</h3>";
-			if ($totalGPA>=2.00)
+			if ($totalGPA >= 2.00)
 			    echo "Good Standing";
 			else
-			  echo "Academic Probation";
+				echo "Academic Probation";
 				
 				
 						
@@ -110,7 +110,7 @@ if ($results = mysql_query($query)) {
 			echo "<span style='float: left; margin-right: 80px'>";
 			?>
 	
-<a href="courses.php" class="mainButton">Add Incompleted Course</a>
+<a href="courses.php" class="mainButton">Add Incomplete Course</a>
 		
 <?php
 			echo "<h3 id='semesterGPA'>Current Courses: $semesterGPA</h3>";
@@ -143,7 +143,7 @@ if ($results = mysql_query($query)) {
 		echo "IP courses query error: " . mysql_error();
 	}
 
-		
+
 		// Start table
 		echo "<span style='float: left'>";
 			?>
@@ -191,7 +191,7 @@ if ($results = mysql_query($query)) {
 }
 ?>
 
-
+<div class='clearfloat'></div>
 
 <br><br><br><br>
 
