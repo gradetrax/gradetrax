@@ -1,4 +1,5 @@
 <?php
+$TITLE = "Classmates";
 require 'header.php';
 ?>
 

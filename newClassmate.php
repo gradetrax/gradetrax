@@ -1,5 +1,7 @@
 <?php
+$TITLE = "Classmates";
 require 'header.php';
+
 
 if(isset($_POST['submit']) && $_POST['friendname'] != "") {
 	// Make sure friend's username exists
@@ -26,7 +28,7 @@ if(isset($_POST['submit']) && $_POST['friendname'] != "") {
 		foreach($_POST['courses'] as $course) {
 			$courses .= $course . ";";
 		}
-		echo $courses . "<br>";
+		//echo $courses . "<br>";
 	} else {
 		echo "The two of you have no mutual courses.";
 		require 'footer.php';
