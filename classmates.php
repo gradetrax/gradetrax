@@ -104,7 +104,7 @@ while ($friend = mysql_fetch_array($result)) {
 		}
 		// Print course name
 		$course = mysql_fetch_array($course);
-		echo "<td style='padding-right: 20px;'><a href='compare.php?id=$course[id]&name=$friend[friendname]'>$course[course]</a></td>";
+		echo "<td style='padding-right: 20px;'><a href='compare.php?department=$id[1]&number=$id[2]&name=$friend[friendname]'>$course[course]</a></td>";
 	}
 
 	echo "</tr>";
