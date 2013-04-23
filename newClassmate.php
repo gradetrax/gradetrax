@@ -13,15 +13,7 @@ if(isset($_POST['submit']) && $_POST['friendname'] != "") {
 		die();
 	}
 	
-	// Make sure they're not already friends
-	$query = "SELECT friendname FROM classmates WHERE friendname='" . $_POST['friendname'] . "'";
-	$result = mysql_query($query);
-	if ($row = mysql_fetch_array($result)) { // Entered username is already a classmate
-		echo "You are already classmates with this user.";
-		require 'footer.php';
-		die();
-	}
-	
+
 	// Gather courses into a string
 	if( isset($_POST['courses']) && is_array($_POST['courses']) ) {
 		$courses = "";
@@ -35,6 +27,8 @@ if(isset($_POST['submit']) && $_POST['friendname'] != "") {
 		die();
 	}
 	
+
+	
 	// Send request
 	$query = "INSERT INTO requests (username, friendname, courses) VALUES ('$_SESSION[username]', '$_POST[friendname]', '$courses')";
 	if(!mysql_query($query)) { // Query failed
@@ -42,6 +36,12 @@ if(isset($_POST['submit']) && $_POST['friendname'] != "") {
 		require 'footer.php';
 		die();
 	}
+	
+	?>
+	 <script language="JavaScript">
+		window.location = "classmates.php";
+	 </script>			
+	<?php
 	
 }
 	
