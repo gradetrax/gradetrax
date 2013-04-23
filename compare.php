@@ -4,7 +4,18 @@ require('header.php');
 
 echo '<div style="float:left; padding-right:30; min-width:300">';
 
-echo "<h3> $_GET[name] </h3>";
+
+$query = "SELECT grade FROM courses WHERE department='" . $_GET['department'] . "' AND number=" . $_GET['number'] . " AND username='" . $_GET['name'] . "'";
+if (!($results = mysql_query($query))) // Query failed
+	die("Error with query: $query");
+$grade=mysql_fetch_array($results);
+
+if($grade[0]>=0)
+  echo "<h3> $_GET[name]:$grade[0] </h3>";
+else
+   echo "<h3> $_GET[name]:N/A </h3>";
+   
+   
 // Returns all categories for this course
 $query = "SELECT * FROM courses WHERE department='" . $_GET['department'] . "' AND number=" . $_GET['number'] . " AND username='" . $_GET['name'] . "'";
 if (!($results = mysql_query($query))) // Query failed
@@ -70,7 +81,14 @@ echo '</div>';
 
 echo '<div style="float:left">';
 
-echo "<h3> $_SESSION[username] </h3>";
+$query = "SELECT grade FROM courses WHERE department='" . $_GET['department'] . "' AND number=" . $_GET['number'] . " AND username='" . $_SESSION['username'] . "'";
+if (!($results = mysql_query($query))) // Query failed
+	die("Error with query: $query");
+$grade=mysql_fetch_array($results);
+if($grade[0]>=0)
+  echo "<h3> $_SESSION[username]:$grade[0] </h3>";
+else
+   echo "<h3> $_SESSION[username]:N/A </h3>";
 
 
 // Returns all categories for this course

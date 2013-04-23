@@ -84,7 +84,7 @@ while ($friend = mysql_fetch_array($result)) {
 	echo "<tr>";
 	
 	// Print friend's username
-	echo "<td style='padding-right: 20px;'><a href='' class='listItem'>$friend[friendname]</a></td>";
+	echo "<td style='padding-right: 20px;'>$friend[friendname]</td>";
 	// Separate shared courses by ; and store in array
 	$courses = explode(";", $friend['courses']);
 
