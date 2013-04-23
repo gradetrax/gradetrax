@@ -1,4 +1,5 @@
 <?php
+$TITLE = "Legal";
 require 'header.php';
 ?>
 
