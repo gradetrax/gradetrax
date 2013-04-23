@@ -95,6 +95,7 @@ while ($friend = mysql_fetch_array($result)) {
 			break;
 
 		// Return course name
+		$id=array();
 		preg_match("/([a-zA-Z]+)(\\d+)/", $course, $id);
 		$query = "SELECT * FROM courses WHERE department='" . $id[1] . "' AND number=" . $id[2];
 		if (!($course = mysql_query($query))) { // Query failed
