@@ -46,7 +46,7 @@ if(isset($_POST['submit']) && $_POST['friendname'] != "") {
 }
 	
 // Returns all courses for this user
-$query = "SELECT course, id FROM courses WHERE username='" . $_SESSION['username'] . "'";
+$query = "SELECT * FROM courses WHERE username='" . $_SESSION['username'] . "'";
 if (!($result = mysql_query($query))) { // query failed
 	echo "Query error: " . mysql_error();
 	require 'footer.php';
@@ -73,7 +73,8 @@ while ($row = mysql_fetch_array($result)) {
 <br><strong>Mutual Courses:</strong>
 <?php
 	foreach($courses as $course) {
-		echo "<br><input type='checkbox' name='courses[]' value='$course[id]' style='margin-left: 2em;'> &nbsp $course[course]";
+		$id = $course['department'] . $course['number'];
+		echo "<br><input type='checkbox' name='courses[]' value='$id' style='margin-left: 2em;'> &nbsp $course[course]";
 	}
 ?>
 <br><br><input type='submit' name='submit' value='Submit Request' />

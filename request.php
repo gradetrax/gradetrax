@@ -33,12 +33,12 @@ if (isset($_POST['reject'])) { // Remove request from database
 		die("Insert error: " . mysql_error());
 	}
 	
-	// // Insert to classmates
-	// $query = "INSERT INTO classmates (username, friendname, courses) VALUES ('" . $request['friendname'] . "', '" . $request['username'] . "', '" . $request['courses'] . "')";
-	// // echo $query . "<br>";
-	// if (!mysql_query($query)) { // Query error
-		// die("Insert error: " . mysql_error());
-	// }
+	// Insert to classmates
+	$query = "INSERT INTO classmates (username, friendname, courses) VALUES ('" . $request['friendname'] . "', '" . $request['username'] . "', '" . $request['courses'] . "')";
+	// echo $query . "<br>";
+	if (!mysql_query($query)) { // Query error
+		die("Insert error: " . mysql_error());
+	}
 	
 	?>
 	<script language="JavaScript">
@@ -67,7 +67,8 @@ echo "<h3>Classmate Request from $request[username]</h3>";
 			break;
 	
 		// Return course name
-		$query = "SELECT * FROM courses WHERE id=" . $course;
+		preg_match("/([a-zA-Z]+)(\\d+)/", $course, $id);
+		$query = "SELECT * FROM courses WHERE department='" . $id[1] . "' AND number=" . $id[2];
 		if (!($course = mysql_query($query))) { // Query failed
 			echo "Query error: " . mysql_error();
 			require 'footer.php';

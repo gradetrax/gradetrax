@@ -40,7 +40,9 @@ while ($friend = mysql_fetch_array($result)) {
 			break;
 	
 		// Return course name
-		$query = "SELECT course FROM courses WHERE id=" . $course;
+		$id = array();
+		preg_match("/([a-zA-Z]+)(\\d+)/", $course, $id);
+		$query = "SELECT course FROM courses WHERE department='" . $id[1] . "' AND number=" . $id[2];
 		if (!($course = mysql_query($query))) { // Query failed
 			echo "Query error: " . mysql_error();
 			require 'footer.php';
@@ -68,7 +70,7 @@ echo "</table>";
 <?php
 
 // Returns all listed classmates
-$query = "SELECT * FROM classmates WHERE username='" . $_SESSION['username'] . "' OR friendname='" . $_SESSION['username'] . "'";
+$query = "SELECT * FROM classmates WHERE username='" . $_SESSION['username'] . "'";
 if (!($result = mysql_query($query))) { // Query failed
 	echo "Query error: " . mysql_error();
 	require 'footer.php';
@@ -93,7 +95,8 @@ while ($friend = mysql_fetch_array($result)) {
 			break;
 
 		// Return course name
-		$query = "SELECT course FROM courses WHERE id=" . $course;
+		preg_match("/([a-zA-Z]+)(\\d+)/", $course, $id);
+		$query = "SELECT * FROM courses WHERE department='" . $id[1] . "' AND number=" . $id[2];
 		if (!($course = mysql_query($query))) { // Query failed
 			echo "Query error: " . mysql_error();
 			require 'footer.php';
@@ -101,7 +104,7 @@ while ($friend = mysql_fetch_array($result)) {
 		}
 		// Print course name
 		$course = mysql_fetch_array($course);
-		echo "<td style='padding-right: 20px;'>$course[course]</td>";
+		echo "<td style='padding-right: 20px;'><a href='compare.php?id=$course[id]&name=$friend[friendname]'>$course[course]</a></td>";
 	}
 
 	echo "</tr>";
