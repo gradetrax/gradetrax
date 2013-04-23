@@ -55,7 +55,7 @@ EOT;
 if (!isset($_SESSION['username'])) {
 	// Make sure we're not on the login page
 	$parts = explode('/', $_SERVER["PHP_SELF"]);
-    if ($parts[count($parts) - 1] != "login.php" && $parts[count($parts) - 1] != "create.php") {
+    if ($parts[count($parts) - 1] != "login.php" && $parts[count($parts) - 1] != "create.php" && $parts[count($parts) - 1] != "contact.php" && $parts[count($parts) - 1] != "about.php" && $parts[count($parts) - 1] != "legal.php") {
 		echo "Please log in.";
 		require 'footer.php';
 		die();
