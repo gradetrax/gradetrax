@@ -10,6 +10,13 @@ if (!isset($_GET['name']) || !isset($_GET['grade']) || !isset($_GET['course'])) 
 
 if (isset($_POST['submit']))
 {
+
+	if ($_POST['grade'] < 0) {
+		echo "Please enter a positive grade.";
+		require 'footer.php';
+		die();
+	}
+
 	$query = "UPDATE assignments SET name='$_POST[name]', grade='$_POST[grade]' WHERE name='$_GET[name]' AND courseID=$_GET[course]";
 	// echo $query;
 	if (!mysql_query($query)) {
