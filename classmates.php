@@ -68,7 +68,7 @@ echo "</table>";
 <?php
 
 // Returns all listed classmates
-$query = "SELECT * FROM classmates WHERE username='" . $_SESSION['username'] . "'";
+$query = "SELECT * FROM classmates WHERE username='" . $_SESSION['username'] . "' OR friendname='" . $_SESSION['username'] . "'";
 if (!($result = mysql_query($query))) { // Query failed
 	echo "Query error: " . mysql_error();
 	require 'footer.php';

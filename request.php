@@ -28,10 +28,18 @@ if (isset($_POST['reject'])) { // Remove request from database
 	
 	// Insert to classmates
 	$query = "INSERT INTO classmates (username, friendname, courses) VALUES ('" . $request['username'] . "', '" . $request['friendname'] . "', '" . $request['courses'] . "')";
-	echo $query . "<br>";
+	// echo $query . "<br>";
 	if (!mysql_query($query)) { // Query error
 		die("Insert error: " . mysql_error());
 	}
+	
+	// // Insert to classmates
+	// $query = "INSERT INTO classmates (username, friendname, courses) VALUES ('" . $request['friendname'] . "', '" . $request['username'] . "', '" . $request['courses'] . "')";
+	// // echo $query . "<br>";
+	// if (!mysql_query($query)) { // Query error
+		// die("Insert error: " . mysql_error());
+	// }
+	
 	?>
 	<script language="JavaScript">
 		window.location = "classmates.php";
