@@ -47,7 +47,7 @@ if(isset($_POST['update'])) {
 
 	if (($_POST['name'] != "") && (is_numeric($_POST['weight']))) { // Fields were filled appropriately
 		// Updates a row
-		$query = "UPDATE categories SET name='" . $_POST['name'] . "', weight=" . $_POST['weight'] . " WHERE name='" . $_POST['category'] . "'";
+		$query = "UPDATE categories SET name='" . $_POST['name'] . "', weight=" . $_POST['weight'] . " WHERE name='" . $_POST['category'] . "' AND courseID=" . $_GET['id'];
 		if (!mysql_query($query)) { // Query failed
 			echo "Update failed: $query";
 			echo "<br>" . mysql_error();
@@ -203,7 +203,7 @@ function show(type) {
 
 
 
-
+<br><br><br>
 
 <?php
 require('footer.php');
