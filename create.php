@@ -3,23 +3,6 @@
 $TITLE = "Create Account";
 require 'header.php';
 
-/*function aes_encrypt($val)
-{
-	$key = mysql_aes_key('Ralf_S_Engelschall__trainofthoughts');
-	$pad_value = 16-(strlen($val) % 16);
-	$val = str_pad($val, (16*(floor(strlen($val) / 16)+1)), chr($pad_value));
-	return mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $val, MCRYPT_MODE_ECB, mcrypt_create_iv( mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_ECB), MCRYPT_DEV_URANDOM));
-}
-
-function aes_decrypt($val)
-{
-	$key = mysql_aes_key('Ralf_S_Engelschall__trainofthoughts');
-	$val = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $val, MCRYPT_MODE_ECB, mcrypt_create_iv( mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_ECB), MCRYPT_DEV_URANDOM));
-	return rtrim($val, "\0..\16");
-}
-
-// $decrypted_value = rtrim($decrypted_value, "\0..\16");
-*/
 if (isset($_POST['submit'])) {
 
 	if ($_POST['name'] == '') {
@@ -31,8 +14,9 @@ if (isset($_POST['submit'])) {
 		} else if (preg_match("/^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]*([.][a-zA-Z0-9_]+)*[\.]*unt[\.]edu$/", $_POST['email']) <= 0) {
 		echo "Please enter a valid UNT email<br>";
 	} else {
-	//	$pt_pass = $_POST['password'];	// Plain text password = form submitted password
+	//	$pt_pass = $_POST['pass'];	// Plain text password = form submitted password
 		$query = "INSERT INTO students (username, password, email) VALUES ('" . $_POST['name'] . "', '" . $_POST['pass'] . "', '" . $_POST['email'] . "')";
+		$secQuery = "INSERT INTO securestudents (username, password, email) VALUES ('" . $_POST['name'] . "', '" . $_POST['pass'] . "', '" . $_POST['email'] . "')";
 	//	echo $query;
 		if (mysql_query($query)) {
 			echo <<<EOT
@@ -41,6 +25,7 @@ if (isset($_POST['submit'])) {
 			<a href="login.php" class="mainButton">Log In</a>
 EOT;
 			$accountMade = TRUE;
+
 		} else
 			echo "mysql error: " . mysql_error();
 	}
