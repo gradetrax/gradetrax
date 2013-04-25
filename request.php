@@ -89,6 +89,7 @@ if (isset($_POST['reject'])) { // Remove request from database
 		</script>
 		<?php
 	
+		die();
 	
 	}
 	
@@ -107,11 +108,7 @@ if (isset($_POST['reject'])) { // Remove request from database
 		die("Insert error: " . mysql_error());
 	}
 	
-	?>
-	<script language="JavaScript">
-		window.location = "classmates.php";
-	</script>
-	<?php
+
 }
 
 
