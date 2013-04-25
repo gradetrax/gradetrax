@@ -61,11 +61,11 @@ if (isset($_POST['reject'])) { // Remove request from database
 			}
 		}
 		
-		echo $combinedCourses . "<br>";
+		// echo $combinedCourses . "<br>";
 	
 		// Update the friendship
 		$query = "UPDATE classmates SET courses='" . $combinedCourses . "' WHERE friendname='$request[username]' AND username='$_SESSION[username]'";
-		echo $query . "<br>";
+		// echo $query . "<br>";
 		if(!mysql_query($query)) { // Query failed
 			echo "Query 1 error: " . mysql_error();
 			require 'footer.php';
@@ -74,7 +74,7 @@ if (isset($_POST['reject'])) { // Remove request from database
 		
 		// Update the friendship again
 		$query = "UPDATE classmates SET courses='" . $combinedCourses . "' WHERE username='$request[username]' AND friendname='$_SESSION[username]'";
-		echo $query . "<br>";
+		// echo $query . "<br>";
 		if(!mysql_query($query)) { // Query failed
 			echo "Query 2 error: " . mysql_error();
 			require 'footer.php';
