@@ -34,9 +34,9 @@ if (isset($_POST['reject'])) { // Remove request from database
 	$result = mysql_query($query);
 	if ($row = mysql_fetch_array($result)) { // Entered username is already a classmate
 	
-	echo "<pre>";
-	print_r($row);
-	echo "</pre>";
+	// echo "<pre>";
+	// print_r($row);
+	// echo "</pre>";
 	
 		// Compare each one and concatenate to new string
 		$newCourses = array();
@@ -45,13 +45,18 @@ if (isset($_POST['reject'])) { // Remove request from database
 		$newCourses = explode(";", $request['courses']);
 		
 		foreach($newCourses as $newCourse) {
-			$new = 0;
+			if ($newCourse == "")
+					break;
+			$new = 1;
 			foreach($courses as $course) {
-				if ($course != $newCourse) {
-					$new = 1;
+				if ($course == "")
+					break;
+				// echo $newCourse . " vs " . $course . "<br>";
+				if ($course == $newCourse) {
+					$new = 0;
 				}
 			}
-			if ($new == 1) {
+			if ($new) {
 				$combinedCourses .= $newCourse . ";";
 			}
 		}
@@ -76,7 +81,7 @@ if (isset($_POST['reject'])) { // Remove request from database
 			die();
 		}
 		
-		die("<br>Success?");
+		// die("<br>Success?");
 		
 		?>
 		<script language="JavaScript">

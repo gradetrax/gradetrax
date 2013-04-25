@@ -13,16 +13,38 @@ if(isset($_POST['submit']) && $_POST['friendname'] != "") {
 		die();
 	}
 	
-
+	
+	// Get all the recipient's courses
+	$query = "SELECT * FROM courses WHERE username='" . $_POST['friendname'] . "'";
+	$result = mysql_query($query);
+	$friendCourses = array();
+	while ($row = mysql_fetch_array($result)) { // Store their courses
+		$friendCourses[] = $row['department'] . $row['number'];
+		
+	}
+	
+	
 	// Gather courses into a string
 	if( isset($_POST['courses']) && is_array($_POST['courses']) ) {
 		$courses = "";
+		$match = false;
 		foreach($_POST['courses'] as $course) {
-			$courses .= $course . ";";
+			foreach($friendCourses as $friendCourse) {
+				// echo $friendCourse . " vs " . $course . "<br>";
+				if($friendCourse == $course) {
+					$courses .= $course . ";";
+					$match = true;
+				}
+			}
+		}
+		if (!$match) {
+			echo "No mutual courses could be found among those you selected.";
+			require 'footer.php';
+			die();
 		}
 		//echo $courses . "<br>";
 	} else {
-		echo "The two of you have no mutual courses.";
+		echo "You must enter at least one mutual course.";
 		require 'footer.php';
 		die();
 	}
@@ -38,10 +60,11 @@ if(isset($_POST['submit']) && $_POST['friendname'] != "") {
 	}
 	
 	?>
-	 <script language="JavaScript">
+	<script language="JavaScript">
 		window.location = "classmates.php";
-	 </script>			
+	</script>
 	<?php
+	
 	
 }
 	
