@@ -31,7 +31,7 @@ if (isset($_POST['submit'])) {
 		} else if (preg_match("/^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]*([.][a-zA-Z0-9_]+)*[\.]*unt[\.]edu$/", $_POST['email']) <= 0) {
 		echo "Please enter a valid UNT email<br>";
 	} else {
-		$pt_pass = $_POST['password'];	// Plain text password = form submitted password
+	//	$pt_pass = $_POST['password'];	// Plain text password = form submitted password
 		$query = "INSERT INTO students (username, password, email) VALUES ('" . $_POST['name'] . "', '" . $_POST['pass'] . "', '" . $_POST['email'] . "')";
 	//	echo $query;
 		if (mysql_query($query)) {
