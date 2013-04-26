@@ -185,7 +185,11 @@ if ($results = mysql_query($query)) {
 		echo "</span>";
 
 	} else {
-		echo "You have no completed courses saved.";
+		?>
+		You have no completed courses saved.
+		<br><br>
+		<a href="finishedCourses.php" class="mainButton">Add Completed Course</a>
+		<?php
 	}
 
 }

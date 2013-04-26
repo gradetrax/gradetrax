@@ -11,9 +11,9 @@ if (!($results = mysql_query($query))) // Query failed
 $grade=mysql_fetch_array($results);
 
 if($grade[0]>=0)
-  echo "<h3> $_GET[name]:$grade[0] </h3>";
+  echo "<h3> $_GET[name]: $grade[0] </h3>";
 else
-   echo "<h3> $_GET[name]:N/A </h3>";
+   echo "<h3> $_GET[name]: N/A </h3>";
    
    
 // Returns all categories for this course
@@ -86,9 +86,9 @@ if (!($results = mysql_query($query))) // Query failed
 	die("Error with query: $query");
 $grade=mysql_fetch_array($results);
 if($grade[0]>=0)
-  echo "<h3> $_SESSION[username]:$grade[0] </h3>";
+  echo "<h3> $_SESSION[username]: $grade[0] </h3>";
 else
-   echo "<h3> $_SESSION[username]:N/A </h3>";
+   echo "<h3> $_SESSION[username]: N/A </h3>";
 
 
 // Returns all categories for this course
