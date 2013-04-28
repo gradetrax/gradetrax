@@ -18,7 +18,13 @@ $query = "SELECT * FROM students WHERE username='" . $_POST['name'] . "'";
 	$results = mysql_query($query);
 
 	if ($row = mysql_fetch_array($results)) {
-		if ($row['password'] == $_POST['pass']) {
+		if ($email == true)
+			$query2 = "SELECT AES_DECRYPT(secPass,'" . $eKey . "') FROM students WHERE email='" . $_POST['name'] . "'";
+		else
+			$query2 = "SELECT AES_DECRYPT(secPass,'" . $eKey . "') FROM students WHERE username='" . $_POST['name'] . "'";
+		$eQuery = mysql_query($query2);
+		$ePass = mysql_fetch_array($eQuery);
+		if ($_POST['pass'] == $ePass["AES_DECRYPT(secPass,'" . $eKey . "')"]) {
 			$_SESSION['username'] = $row['username'];
 			?>
 			
