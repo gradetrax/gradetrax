@@ -132,6 +132,7 @@ if (!($result = mysql_query($query))) { // Query failed
 		// GRAPH STUFF YEAH
 		
 		echo <<< EOT
+		<br>
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script type="text/javascript">
 		  google.load("visualization", "1", {packages:["corechart"]});
@@ -154,7 +155,7 @@ if (!($result = mysql_query($query))) { // Query failed
 			chart.draw(data, options);
 		  }
 		</script>
-		<div id="chart_div" style="width: 400px; height: 400px;"></div>
+		<div id="chart_div" style="width: 400px; height: 300px;"></div>
 EOT;
 	
 	}
