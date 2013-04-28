@@ -12,13 +12,16 @@ require 'header.php';
 <?php
 $total=0;
 $credits=0;
+$totalGPA=-1;
+$projectedGPA=-1;
+$complete=false;
 $query = "SELECT * FROM completed_courses WHERE username='" . $_SESSION['username']."' ORDER BY department, number ASC";
 if ($results = mysql_query($query)) {
 
 	$courses = array();
 	$row = mysql_fetch_array($results);
 	if (is_array($row)) {
-
+		$complete=true;
 		// Add first course
 		$courses[] = $row;
 		$total=$total+($row["credits"]*$row["grade"]);
@@ -38,7 +41,7 @@ if ($results = mysql_query($query)) {
 		$completedGPA = number_format($total/$credits,3);
 		// echo "Your GPA on past coursework is " . $completedGPA;
 		
-		
+			current:
 		$query = "SELECT * FROM courses WHERE username='" . $_SESSION['username'] . "' AND grade>-1";
 		if ($results = mysql_query($query)) {
 			$IPcourses = array();
@@ -94,12 +97,14 @@ if ($results = mysql_query($query)) {
 			// /Display
 			
 			echo "<br><br>";
-			
+			if($complete!=false)
+			{
 			echo "<h3 id='projectedGPA'>Projected Total: $totalGPA</h3>";
 			if ($totalGPA >= 2.00)
 			    echo "Good Standing";
-			else
+			else if($totalGPA>-1)
 				echo "Academic Probation";
+				}
 				
 				
 						
@@ -109,7 +114,7 @@ if ($results = mysql_query($query)) {
 			// Start table
 			echo "<span style='float: left; margin-right: 80px'>";
 			?>
-	
+
 <a href="courses.php" class="mainButton">Add Incomplete Course</a>
 		
 <?php
@@ -118,6 +123,7 @@ if ($results = mysql_query($query)) {
 			    echo "Eligible for recognition on the President’s List";
 			else if ($semesterGPA>=3.50)
 			    echo "Eligible for recognition on the Dean’s List";
+		
 				
 			echo "<table border='1' cellspacing='0' cellpadding='5'>";
 			echo "<tr>";
@@ -137,24 +143,36 @@ if ($results = mysql_query($query)) {
 			echo "</table>";
 			echo "</span>";
 		} else {
+			echo "<span style='float: left; margin-right: 80px'>";
 			echo "You have no courses in progress.<br>";
+						echo "<span style='float: left; margin-right: 80px'>";
+			?>
+
+<a href="courses.php" class="mainButton">Add Incomplete Course</a>
+		
+<?php
+			
+			echo "</span>";
+			
 		}
 	} else {
 		echo "IP courses query error: " . mysql_error();
 	}
 
-
+	if($complete==true){
 		// Start table
+	
 		echo "<span style='float: left'>";
 			?>
-	
+
 <a href="finishedCourses.php" class="mainButton">Add Completed Course</a>
 		
 <?php
+		
 		echo "<h3 id='completedGPA'>Completed Courses: $completedGPA</h3>";
-		if ($totalGPA>=2.00)
+		if ($completedGPA>=2.00)
 			    echo "Good Standing";
-			else
+			else if($completedGPA!=-1)
 			  echo "Academic Probation";
 		echo "<table border='1' cellspacing='0' cellpadding='5'>";
 		echo "<tr>";
@@ -183,13 +201,18 @@ if ($results = mysql_query($query)) {
 		}
 		echo "</table>";
 		echo "</span>";
-
+}
 	} else {
 		?>
 		You have no completed courses saved.
-		<br><br>
+			<br>
+		
 		<a href="finishedCourses.php" class="mainButton">Add Completed Course</a>
 		<?php
+		echo"<br><br>";
+		echo "</span>";
+		echo"<div class='clearfloat'></div>";
+		goto current;
 	}
 
 }
