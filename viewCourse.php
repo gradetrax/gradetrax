@@ -84,7 +84,10 @@ if (!($result = mysql_query($query))) { // Query failed
 		// echo "<pre>";
 		// print_r($grades);
 		// echo "</pre><br>";
-		
+		if($counter>1)
+		  echo "Data from " . $counter . " students:<br>";
+		else
+		  echo "Data from 1 student:<br>";
 		// Mean
 		$mean = $gradeSum / $counter;
 		echo "Mean: $mean<br>";
@@ -212,7 +215,7 @@ EOT;
 	}
 	
 }
-
+echo "</div>";
 
 require 'footer.php';
 ?>
