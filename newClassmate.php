@@ -6,7 +6,7 @@ require 'header.php';
 if(isset($_POST['submit']) && $_POST['friendname'] != "") {
 
 	// No friending yourself
-	if ($_POST['friendname'] == $_SESSION['username']) {
+	if (strtolower($_POST['friendname']) == strtolower($_SESSION['username'])) {
 		echo "You can't be classmates with yourself! You already know your own grades.";
 		require 'footer.php';
 		die();
