@@ -43,6 +43,7 @@ if (!($result = mysql_query($query))) { // Query failed
 	$row = mysql_fetch_array($result); // Store course information
 	if ($_SESSION['username'] != $row['username']) { // User did not create the course - don't let them edit it
 		echo "You do not have permission to access this course!";
+		echo '<br><br><a href="courses.php" class="mainButton">Return to All Courses</a>';
 	} else {
 		
 		if ($row['grade'] < 0) // Grade not calculated yet
@@ -52,8 +53,91 @@ if (!($result = mysql_query($query))) { // Query failed
 
 
 		// Print information and form to edit
+		
+			echo "<h3>$row[department] $row[number]: $row[course]</h3>";
+			
+			echo "<div style='float: left; padding-right:100px'>";
+	
+	$query = "SELECT grade from courses WHERE department='" . $row['department'] . "' AND number=" . $row['number'];
+	if (!($result = mysql_query($query))) {
+		echo "Query error: " . mysql_error();
+	} else {
+		$counter = 0;
+		$grades = array();
+		while ($row = mysql_fetch_array($result)) {
+			if ($row['grade'] > 0) { // Grade calculated and stored
+				$grades[] = $row['grade'];
+				$counter ++;
+			}
+		}
+		
+		echo "Class mean, median, and mode go here<br><br>";
+		
+		// Calculate letter grade breakdown
+		$letters = array(
+						"A" => 0,
+						"B" => 0,
+						"C" => 0,
+						"D" => 0,
+						"F" => 0
+						);
+						
+		foreach($grades as $grade) {
+			switch($grade) {
+				case ($grade >= 90): $letters["A"]++; break;
+				case ($grade >= 80): $letters["B"]++; break;
+				case ($grade >= 70): $letters["C"]++; break;
+				case ($grade >= 60): $letters["D"]++; break;
+				default: $letters["F"]++; break;
+			}
+		}
+		
+		
+		// // GRAPH STUFF YEAH
+		// require('gchart/utility.php');
+		// require ('gchart/gChart.php');
+		// require ('gchart/gPieChart.php');
+
+		// $piChart = new gchart\gPieChart();
+		// $piChart->addDataSet($letters);
+		// $piChart->setLegend(array("A", "B", "C","D", "F"));
+		// // $piChart->setLabels(array("first", "second", "third","fourth"));
+		// $piChart->setColors(array("ff3344", "11ff11", "22aacc", "3333aa"));
+		// echo "<img src='" . $piChart->getUrl() . "'/>";
+		
+		echo <<< EOT
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+		  google.load("visualization", "1", {packages:["corechart"]});
+		  google.setOnLoadCallback(drawChart);
+		  function drawChart() {
+			var data = google.visualization.arrayToDataTable([
+			  ['Grade', 'Students'],
+			  ['A',		$letters[A]],
+			  ['B',		$letters[B]],
+			  ['C',		$letters[C]],
+			  ['D',		$letters[D]],
+			  ['F',		$letters[F]]
+			]);
+
+			var options = {
+			  title: 'Total Grades'
+			};
+
+			var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+			chart.draw(data, options);
+		  }
+		</script>
+		<div id="chart_div" style="width: 400px; height: 400px;"></div>
+EOT;
+	
+	}
+	
+	echo "</div>";
+	echo "<div style='float: left;'>";
+	
+			
 		echo <<<EOT
-			<h3>$row[department] $row[number]: $row[course]</h3>
 			
 			<div id="origData">
 			Current grade: $grade
@@ -87,10 +171,15 @@ EOT;
 
 		echo '<br><br><a href="removeCourse.php?id=' . $_GET['id'] . '" class="mainButton">Delete Course</a>';
 		echo '<br><a href="completeCourse.php?id=' . $_GET['id'] . '" class="mainButton">Mark Complete</a>';
-	}
+	
 
 	echo '<br><br><a href="courses.php" class="mainButton">Return to All Courses</a>';
 
+	echo "</div>";
+
+	
+	}
+	
 }
 
 
