@@ -63,15 +63,48 @@ if (!($result = mysql_query($query))) { // Query failed
 		echo "Query error: " . mysql_error();
 	} else {
 		$counter = 0;
+		$gradeSum = 0;
 		$grades = array();
 		while ($row = mysql_fetch_array($result)) {
 			if ($row['grade'] > 0) { // Grade calculated and stored
 				$grades[] = $row['grade'];
 				$counter ++;
+				$gradeSum += $row['grade'];
 			}
 		}
 		
-		echo "Class mean, median, and mode go here<br><br>";
+		if (!$counter) { // No students enrolled in this course have calculated grades
+			goto noGrades;
+		}
+
+
+		sort($grades);
+
+		// Debugging print
+		// echo "<pre>";
+		// print_r($grades);
+		// echo "</pre><br>";
+		
+		// Mean
+		$mean = $gradeSum / $counter;
+		echo "Mean: $mean<br>";
+		
+		// Median
+		if ($counter % 2) {
+			// Take floor of (size of array / 2)
+			$median = floor($grades[$counter/2]);
+		} else {
+			$median = ($grades[$counter/2 - 1] + $grades[$counter/2]) / 2;
+		}
+		echo "Median: $median<br>";
+		
+		// Range
+		$sml = $grades[0]; 
+		rsort($grades); 
+		$lrg = $grades[0];
+		$range = $lrg - $sml;
+		echo "Range: $range<br>";
+
 		
 		// Calculate letter grade breakdown
 		$letters = array(
@@ -93,17 +126,7 @@ if (!($result = mysql_query($query))) { // Query failed
 		}
 		
 		
-		// // GRAPH STUFF YEAH
-		// require('gchart/utility.php');
-		// require ('gchart/gChart.php');
-		// require ('gchart/gPieChart.php');
-
-		// $piChart = new gchart\gPieChart();
-		// $piChart->addDataSet($letters);
-		// $piChart->setLegend(array("A", "B", "C","D", "F"));
-		// // $piChart->setLabels(array("first", "second", "third","fourth"));
-		// $piChart->setColors(array("ff3344", "11ff11", "22aacc", "3333aa"));
-		// echo "<img src='" . $piChart->getUrl() . "'/>";
+		// GRAPH STUFF YEAH
 		
 		echo <<< EOT
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -133,9 +156,17 @@ EOT;
 	
 	}
 	
+	noGrades:
+	
 	echo "</div>";
 	echo "<div style='float: left;'>";
 	
+	$query = "SELECT * FROM courses WHERE id={$_GET['id']}";
+	if (!($result = mysql_query($query))) { // Query failed
+		echo "Error with query $query";
+		die();
+	}
+	$row = mysql_fetch_array($result); // Store course information
 			
 		echo <<<EOT
 			
