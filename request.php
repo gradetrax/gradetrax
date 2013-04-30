@@ -34,9 +34,9 @@ if (isset($_POST['reject'])) { // Remove request from database
 	$result = mysql_query($query);
 	if ($row = mysql_fetch_array($result)) { // Entered username is already a classmate
 	
-	// echo "<pre>";
-	// print_r($row);
-	// echo "</pre>";
+	 echo "<pre>";
+	 print_r($row);
+	 echo "</pre>";
 	
 		// Compare each one and concatenate to new string
 		$newCourses = array();
@@ -96,7 +96,7 @@ if (isset($_POST['reject'])) { // Remove request from database
 	
 	// Insert to classmates if it's a new friend
 	$query = "INSERT INTO classmates (username, friendname, courses) VALUES ('" . $request['username'] . "', '" . $request['friendname'] . "', '" . $request['courses'] . "')";
-	// echo $query . "<br>";
+	 //echo $query . "<br>";
 	if (!mysql_query($query)) { // Query error
 		die("Insert error: " . mysql_error());
 	}
