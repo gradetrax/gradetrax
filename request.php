@@ -10,15 +10,18 @@ $request = mysql_fetch_array($result); // Store result in array
 
 
 if (isset($_POST['reject'])) { // Remove request from database
+
 	$query = "DELETE FROM requests WHERE id=" . $_GET['id'];
 	if (!mysql_query($query)) { // Query error
 		die("Delete error: " . mysql_error());
 	}
+	
 	?>
 	<script language="JavaScript">
 		window.location = "classmates.php";
 	</script>
 	<?php
+
 	
 } else if (isset($_POST['accept'])) { // Remove from requests, insert to classmates
 	
@@ -30,7 +33,7 @@ if (isset($_POST['reject'])) { // Remove request from database
 	
 	
 	// Append the courses if they're already friends
-	$query = "SELECT * FROM classmates WHERE friendname='" . $request['friendname'] . "'";
+	$query = "SELECT * FROM classmates WHERE friendname='" . $request['friendname'] . "' AND username='" . $_SESSION['username'] . "'";
 	$result = mysql_query($query);
 	if ($row = mysql_fetch_array($result)) { // Entered username is already a classmate
 	
@@ -80,9 +83,7 @@ if (isset($_POST['reject'])) { // Remove request from database
 			require 'footer.php';
 			die();
 		}
-		
-		// die("<br>Success?");
-		
+	
 		?>
 		<script language="JavaScript">
 			window.location = "classmates.php";
@@ -107,6 +108,13 @@ if (isset($_POST['reject'])) { // Remove request from database
 	if (!mysql_query($query)) { // Query error
 		die("Insert error: " . mysql_error());
 	}
+
+
+	?>
+	<script language="JavaScript">
+		window.location = "classmates.php";
+	</script>
+	<?php
 	
 
 }
