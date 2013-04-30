@@ -171,7 +171,10 @@ EOT;
 		die();
 	}
 	$row = mysql_fetch_array($result); // Store course information
-			
+			if ($row['grade'] < 0) // Grade not calculated yet
+			$grade = "N/A";
+		else // Grade calculated and stored
+			$grade = $row['grade'];
 		echo <<<EOT
 			
 			<div id="origData">
