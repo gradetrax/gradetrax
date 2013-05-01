@@ -101,9 +101,9 @@ if ($results = mysql_query($query)) {
 			{
 			echo "<h3 id='projectedGPA'>Projected Total: $totalGPA</h3>";
 			if ($totalGPA >= 2.00)
-			    echo "Good Standing";
+			    echo "Good Standing<br>";
 			else if($totalGPA>-1)
-				echo "Academic Probation";
+				echo "Academic Probation<br>";
 				}
 				
 				
@@ -123,6 +123,11 @@ if ($results = mysql_query($query)) {
 			    echo "Eligible for recognition on the President’s List";
 			else if ($semesterGPA>=3.50)
 			    echo "Eligible for recognition on the Dean’s List";
+			else if ($semesterGPA>=2)
+			    echo "Good Standing";
+			else if ($semesterGPA!=-1)
+			    echo "Academic Probation";
+			
 		
 				
 			echo "<table border='1' cellspacing='0' cellpadding='5'>";
