@@ -40,7 +40,7 @@ if (isset($_POST['submit'])) {
 	<!-- Form for choosing category -->
 	<form method="post" action="">
 	<br>Category:
-	<select name="categoryID"> <!-- Dropdown to select category for new assignment -->
+	<select name="categoryID" autofocus> <!-- Dropdown to select category for new assignment -->
 	<?php
 		// Returns all categories for the selected course
 		$query = "SELECT * FROM categories WHERE courseID='" . $_POST['courseID'] . "' ORDER BY weight ASC";
